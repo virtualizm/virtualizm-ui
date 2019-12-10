@@ -1,19 +1,13 @@
-import React, { 
-  useState,
-  useEffect
-} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import Hypervisors from './Hypervisors';
 import VirtualMachines from './VirtualMachines';
-import { fetchHyps, fetchMachines } from './Api';
-import './App.css';
+import { SideMenu } from './components/SideMenu';
+import { fetchMachines, fetchHyps } from './Api';
 
 const useStyles = makeStyles({
   root: {
@@ -28,92 +22,75 @@ const useStyles = makeStyles({
     width: '100%',
     overflowX: 'auto',
   },
-  header: {
-    display: 'flex'
-  },
   formControl: {
     width: 100,
-    marginRight: 20
-  },
-  menu: {
     marginRight: 20
   }
 });
 
 
 function App() {
-  const [data, setData] = useState(null);
+  const classes = useStyles();
+  
   const [activeTab, setActiveTab] = useState(0);
-  const [filter, setFilter] = useState({
-    id: '',
-    name: ''
-  });
-
   const onChangeTab = (e, newTab) => setActiveTab(newTab);
 
-  const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(false);
+  const [hypsData, setHypsData] = useState([]);
+  const [virtsData, setVirtsData] = useState([]);
 
-  const onFetch = activeTab === 0 ? fetchMachines : fetchHyps;
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    const hypsResp = await fetchHyps();
+    const virtsResp = await fetchMachines();
 
-  const fetchAndSave = async (filters) => {
-    const newData = await onFetch(filters);
+    const hyps = hypsResp.map(({id, attributes}) => ({id, ...attributes}));
+    const virts = virtsResp.map(({id, attributes: { xml, ...attributes }, relationships}) => {
+        const hypId = relationships.hypervisor.data.id;
 
-    setData(newData);
-  }
+        const relativeHypervisor = hyps.find(({ id }) => id === hypId);
 
+        const { name } = relativeHypervisor;
+
+        return {
+          id,
+          ...attributes,
+          hypName: name
+        };
+    });
+
+    setIsLoading(false)
+
+    setHypsData(hyps);
+    setVirtsData(virts);
+  }, []);
+  
   useEffect(() => {
-    fetchAndSave()
-  }, [activeTab])
-
-  const onChangeFilter = field => ({target}) => {
-    const newFilter = {
-      ...filter,
-      [field]: target.value
-    };
-
-    setFilter(newFilter);
-  };
-
-  const filteredData = data && data.data.filter(({id, attributes}) => {
-    if(id.indexOf(filter.id) !== -1 && attributes.name.indexOf(filter.name) !== -1) {
-      return true;
-    }
-
-    return false;
-  });
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div className="App">
       <Box>
         <Container>
           <Grid container>
-            <Grid item xs='2'>
-              <Paper className={classes.menu}>
-                <Tabs
-                  orientation="vertical"
-                  value={activeTab}
-                  onChange={onChangeTab}
-                >
-                  <Tab label="VM"></Tab>
-                  <Tab label="H"></Tab>
-                </Tabs>
-              </Paper>
+            <Grid item xs={2}>
+              <SideMenu activeTab={activeTab} onChange={onChangeTab} />
             </Grid>
-            <Grid item xs='10'>
+            <Grid item xs={10}>
               <Paper>
-              <Container>
-                <Grid cotainer className={classes.header}>
-                  <Grid item >
-                    <TextField id="standard-basic" label="Id" onChange={onChangeFilter('id')} />
-                    <TextField id="standard-basic" label="Name" onChange={onChangeFilter('name')} />
-                  </Grid>
-                </Grid>
-              </Container>
-              {/* virtual machines */}
-              <VirtualMachines classes={classes} activeTab={activeTab} data={filteredData}/>
-
-              {/* hypervisers */}
-             <Hypervisors classes={classes} activeTab={activeTab} data={filteredData} />
+                <VirtualMachines 
+                  data={virtsData}
+                  classes={classes}
+                  activeTab={activeTab} 
+                  isLoading={isLoading}
+                />
+                <Hypervisors 
+                  data={hypsData}
+                  classes={classes} 
+                  activeTab={activeTab} 
+                  isLoading={isLoading}
+                />
              </Paper>
             </Grid>
           </Grid>

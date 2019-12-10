@@ -2,8 +2,7 @@ const HOST = 'http://10.255.10.222:8081';
 
 const headers = {
     'Content-Type': 'application/vnd.api+json',
-    Accept: 'application/vnd.api+json',
-    
+    Accept: 'application/vnd.api+json'
 }
 
 export default function serialize(obj, prefix) {
@@ -39,7 +38,7 @@ export const fetchHyps = (filter) => {
             const error = new Error(response.statusText);
             error.response = response;
             throw error;
-        });
+        }).then(({data}) => data);
     }
 
 export const fetchMachines = (filter) => {
@@ -55,5 +54,5 @@ export const fetchMachines = (filter) => {
             const error = new Error(response.statusText);
             error.response = response;
             throw error;
-        });
+        }).then(({data}) => data);
 }
