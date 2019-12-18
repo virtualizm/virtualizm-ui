@@ -48,7 +48,7 @@ const Modal = ({handleClose, data, isLoading}) => {
 
   const isLocalhost = host.indexOf('localhost') !== -1
 
-  const url = `${isLocalhost ? 'http://10.255.10.222:8081' : host}/spice/index.html?host=10.255.10.222&port=8081&vmInfoToken=${data.id}`;
+  const url = `${isLocalhost ? 'http://10.255.10.222:8081' : `http://${host}`}/spice/index.html?host=10.255.10.222&port=8081&vmInfoToken=${data.id}`;
 
   return (
     <div className='modal'>
