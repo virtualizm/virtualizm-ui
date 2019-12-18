@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TabPanel from './TabPanel';
 import MaterialTable from 'material-table';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import pretty from 'prettysize';
 import './App.css';
 
@@ -33,20 +35,51 @@ function renderList(data){
   );
 }
 
-const Modal = ({handleClose, data}) => {
+const Modal = ({handleClose, data, isLoading}) => {
+  const [tab, setTab] = useState(0);
+
+  const handleChangeTab = (event, newValue) => {
+    setTab(newValue);
+  }
+
+  const { xml, ...fields} = data;
+
+  const host = window.location.host;
+
+  const isLocalhost = host.indexOf('localhost') !== -1
+
+  const url = `${isLocalhost ? 'http://10.255.10.222:8081' : host}/spice/index.html?host=10.255.10.222&port=8081&vmInfoToken=${data.id}`;
+
   return (
     <div className='modal'>
-      <button onClick={handleClose}>Close</button>
-
-      {renderList(data)}
+      {isLoading ? 'updating...' : (
+        <>
+        <button onClick={handleClose}>Close</button>
+        <Tabs value={tab} onChange={handleChangeTab}>
+          <Tab label='General'/>
+          <Tab label='XML'/>
+        </Tabs>
+  
+        <TabPanel activeTab={tab} index={0}>
+          {renderList(fields)}
+          <iframe src={url} title="qwe" width='100%' height='100%' id='myiframe'></iframe>
+        </TabPanel>
+        <TabPanel activeTab={tab} index={1}>
+          <p className="xml">
+            {xml}
+          </p>
+        </TabPanel>
+        </>
+      )}
     </div>
   )
 }
 
-const Hypervisors = ({ activeTab, isLoading, data }) => {
+const Hypervisors = ({ activeTab, isLoading, data, updateVirt }) => {
   const [modal, setModal] = React.useState(null);
 
   const handleOpen = (e, data) => {
+    updateVirt(data.id);
     setModal(data);
   };
 
@@ -56,7 +89,7 @@ const Hypervisors = ({ activeTab, isLoading, data }) => {
 
   return (
     <TabPanel activeTab={activeTab} index={0}>
-      {modal && <Modal data={modal} handleClose={handleClose}/>}
+      {modal && <Modal data={modal} handleClose={handleClose} isLoading={isLoading}/>}
       <MaterialTable
         title='Virtual Machines'
         data={ data }
