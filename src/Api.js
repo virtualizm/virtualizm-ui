@@ -46,7 +46,7 @@ export const fetchMachines = (filter) => {
 
     const url = `${HOST}/virtual-machines${query}`
 
-    return fetch(url, { headers })
+    return fetch(url, { headers})
         .then((response) => {
             if (response.ok) {
                 return response.status === 204 ? response : response.json();
