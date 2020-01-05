@@ -18,7 +18,9 @@ const Auth = function (props) {
         setInputValues({ [name]: value });
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
         try {
             await authorize(inputValues.login, inputValues.password);
             await props.authStatus.setIsAuthenticated(true);
