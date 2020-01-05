@@ -30,29 +30,32 @@ const Auth = function (props) {
 
     return (
         <Container>
-            <TextField
-                required
-                value={inputValues.login}
-                name="login"
-                label="Login"
-                onChange={handleOnChange}
-            />
-            <TextField
-                required
-                value={inputValues.password}
-                name="password"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-                onChange={handleOnChange}
-            />
-            <Button
-                variant="contained"
-                color="primary"
-                onClick = {handleSubmit}
-            >
-                Log in
-            </Button>
+            <form>
+                <TextField
+                    required
+                    value={inputValues.login}
+                    name="login"
+                    label="Login"
+                    onChange={handleOnChange}
+                />
+                <TextField
+                    required
+                    value={inputValues.password}
+                    name="password"
+                    label="Password"
+                    type="password"
+                    autoComplete="current-password"
+                    onChange={handleOnChange}
+                />
+                <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    onClick = {handleSubmit}
+                >
+                    Log in
+                </Button>
+            </form>
         </Container>
     )
 };
