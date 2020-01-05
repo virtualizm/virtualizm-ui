@@ -8,6 +8,15 @@ import VirtualMachines from './VirtualMachines';
 import { SideMenu } from './components/SideMenu';
 import { fetchMachines, fetchHyps } from './Api';
 import './App.css';
+import Auth from './Auth';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
+
 
 const useStyles = makeStyles({
   rootContainer: {
@@ -33,10 +42,11 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-  
+
   const [activeTab, setActiveTab] = useState(0);
   const onChangeTab = (e, newTab) => setActiveTab(newTab);
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hypsData, setHypsData] = useState([]);
   const [virtsData, setVirtsData] = useState([]);
@@ -91,38 +101,72 @@ function App() {
     setVirtsData([...virtsData]);
     setIsLoading(false)
   }, [hypsData, virtsData]);
-  
+
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if(isAuthenticated) {
+      fetchData();
+    }
+  }, [fetchData, isAuthenticated]);
+
+
+  function PrivateRoute({ children, ...rest }) {
+    return (
+        <Route
+            {...rest}
+            render={({ location }) =>
+                isAuthenticated ? (
+                    children
+                ) : (
+                    <Redirect
+                        to={{
+                          pathname: "/auth",
+                          state: { from: location }
+                        }}
+                    />
+                )
+            }
+        />
+    );
+  }
 
   return (
-    <div className="App">
-      <Box height='100%' className={classes.rootContainer}>
-        <Grid container className={classes.grid} >
-          <Grid xs={1}>
-            <SideMenu activeTab={activeTab} onChange={onChangeTab} />
-          </Grid>
-          <Grid xs={11}>
-            <Paper className={classes.paper}>
-              <VirtualMachines 
-                data={virtsData}
-                classes={classes}
-                activeTab={activeTab} 
-                isLoading={isLoading}
-                updateVirt={updateVirt}
-              />
-              <Hypervisors 
-                data={hypsData}
-                classes={classes} 
-                activeTab={activeTab} 
-                isLoading={isLoading}
-              />
-            </Paper>
-          </Grid>
-        </Grid>
-      </Box>
-    </div>
+      <div className="App">
+        <Box height='100%' className={classes.rootContainer}>
+          <Router>
+            <Switch>
+              <Route path="/auth">
+                <Auth
+                    authStatus={{isAuthenticated, setIsAuthenticated}}
+                />
+              </Route>
+              <PrivateRoute path="/">
+                <Grid container className={classes.grid} >
+                  <Grid xs={1}>
+                    <SideMenu activeTab={activeTab} onChange={onChangeTab} />
+                  </Grid>
+                  <Grid xs={11}>
+                    <Paper className={classes.paper}>
+                      <VirtualMachines
+                          data={virtsData}
+                          classes={classes}
+                          activeTab={activeTab}
+                          isLoading={isLoading}
+                          updateVirt={updateVirt}
+                      />
+                      <Hypervisors
+                          data={hypsData}
+                          classes={classes}
+                          activeTab={activeTab}
+                          isLoading={isLoading}
+                      />
+                    </Paper>
+                  </Grid>
+                </Grid>
+              </PrivateRoute>
+            </Switch>
+          </Router>
+        </Box>
+      </div>
   );
 }
 
