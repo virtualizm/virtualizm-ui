@@ -1,13 +1,10 @@
 import React, {useReducer} from 'react';
-
 import TextField from '@material-ui/core/TextField';
 import {Container, Button} from "@material-ui/core";
-import { authorize, fetchHyps } from './Api';
+import { authorize } from './Api';
+import { withRouter } from 'react-router-dom';
 
-
-
-export default function Auth (props) {
-
+const Auth = function (props) {
     const [inputValues, setInputValues] = useReducer(
         (state, newState) => ({ ...state, ...newState }),
         {
@@ -22,14 +19,13 @@ export default function Auth (props) {
     };
 
     const handleSubmit = async () => {
-        const response = await authorize(inputValues.login, inputValues.password);
-        await fetchHyps();
-        console.log(response)
-        if(response.ok) {
+        try {
+            await authorize(inputValues.login, inputValues.password);
             await props.authStatus.setIsAuthenticated(true);
-            await fetchHyps();
+            props.history.push('/')
+        } catch (e) {
+            // handle error here
         }
-
     };
 
     return (
@@ -59,5 +55,6 @@ export default function Auth (props) {
             </Button>
         </Container>
     )
-}
+};
 
+export default withRouter(Auth)

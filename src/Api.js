@@ -1,4 +1,4 @@
-const HOST = 'http://localhost:8080';
+const HOST = 'http://localhost';
 
 const headers = {
     'Content-Type': 'application/vnd.api+json',
@@ -17,13 +17,13 @@ export default function serialize(obj, prefix) {
       }
     }
     return str.join('&');
-  }
+}
 
-  const getFilterQuery = (filter = {}) => {
+const getFilterQuery = (filter = {}) => {
       if(Object.keys(filter).length === 0) return '';
 
       return `?${serialize({filter})}`;
-  }
+}
 
 export const authorize = (login, password) => {
     const url = `${HOST}/api/sessions`
@@ -36,7 +36,7 @@ export const authorize = (login, password) => {
                 password: password
             }
         }
-    };
+    }
 
     return fetch(url, {
         method: 'POST',
@@ -47,10 +47,12 @@ export const authorize = (login, password) => {
         if (response.ok) {
             return response.status === 204 ? response : response.json();
         }
-        return response
-    });
-
+        const error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+    }).then(({data}) => data);
 }
+
 export const fetchHyps = (filter) => {
     const query = getFilterQuery(filter);
     const url = `${HOST}/api/hypervisors${query}`
@@ -67,7 +69,7 @@ export const fetchHyps = (filter) => {
             error.response = response;
             throw error;
         }).then(({data}) => data);
-    }
+}
 
 export const fetchMachines = (filter) => {
     const query = getFilterQuery(filter);
