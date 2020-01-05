@@ -119,7 +119,7 @@ function App() {
                 ) : (
                     <Redirect
                         to={{
-                          pathname: "/auth",
+                          pathname: "/#auth",
                           state: { from: location }
                         }}
                     />
@@ -134,7 +134,7 @@ function App() {
         <Box height='100%' className={classes.rootContainer}>
           <Router>
             <Switch>
-              <Route path="/auth">
+              <Route path="/#auth">
                 <Auth
                     authStatus={{isAuthenticated, setIsAuthenticated}}
                 />
