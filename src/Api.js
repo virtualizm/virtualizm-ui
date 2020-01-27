@@ -1,91 +1,62 @@
-const HOST = 'http://localhost';
+import JsonApi from 'devour-client'
+const jsonApi = new JsonApi({apiUrl:'https://vm.in.onat.edu.ua/api'})
 
-const headers = {
-    'Content-Type': 'application/vnd.api+json',
-    Accept: 'application/vnd.api+json',
-}
+jsonApi.headers['Content-Type'] = 'application/vnd.api+json';
+jsonApi.headers['Accept'] = 'application/vnd.api+json';
 
-export default function serialize(obj, prefix) {
-    const str = [];
+jsonApi.axios.defaults.withCredentials = true
 
-    for (const p in obj) {
-      if (obj.hasOwnProperty(p)) {
-        const k = prefix ? `${ prefix }[${ p }]` : p;
-        const v = obj[p];
 
-        str.push((v !== null && typeof v === 'object') ? serialize(v, k) : `${ encodeURIComponent(k) }=${ encodeURIComponent(v) }`);
-      }
-    }
-    return str.join('&');
-}
-
-const getFilterQuery = (filter = {}) => {
-      if(Object.keys(filter).length === 0) return '';
-
-      return `?${serialize({filter})}`;
-}
+jsonApi.define('session', {
+    login: '',
+    password: ''
+});
 
 export const authorize = (login, password) => {
-    const url = `${HOST}/api/sessions`
+    return jsonApi.create('session', {
+        login: login,
+        password: password
+    });
+};
 
-    const payload = {
-        data: {
-            type: 'sessions',
-            attributes: {
-                login: login,
-                password: password
-            }
-        }
+jsonApi.define('virtual-machine', {
+    name: "",
+    state: "",
+    memory: 0,
+    cpus: 0,
+    xml: '',
+    hypervisor: {
+        jsonApi: 'hasOne',
+        type: 'hypervisors'
     }
+});
 
-    return fetch(url, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(payload),
-        credentials: 'include',
-    }).then((response) => {
-        if (response.ok) {
-            return response.status === 204 ? response : response.json();
-        }
-        const error = new Error(response.statusText);
-        error.response = response;
-        throw error;
-    }).then(({data}) => data);
+export const fetchVirtualMachines = (id) => {
+    return jsonApi.findAll('virtual-machine', {
+        id, 
+        field: { hypervisors: 'name'},
+        include: 'hypervisor'
+    });
 }
 
-export const fetchHyps = (filter) => {
-    const query = getFilterQuery(filter);
-    const url = `${HOST}/api/hypervisors${query}`
+jsonApi.define('hypervisor', {
+    name: "",
+    version: 0,
+    libversion: 0,
+    hostname: "",
+    max_vcpus: 0,
+    cpu_model: "",
+    cpus: 0,
+    mhz: 0,
+    numa_nodes: 0,
+    cpu_sockets: 0,
+    cpu_cores: 0,
+    cpu_threads: 0,
+    total_memory: 0,
+    free_memory: 0,
+    capabilities: ''
+});
 
-    return fetch(url, {
-        headers,
-        credentials: 'include',
-    })
-        .then((response) => {
-            if (response.ok) {
-                return response.status === 204 ? response : response.json();
-            }
-            const error = new Error(response.statusText);
-            error.response = response;
-            throw error;
-        }).then(({data}) => data);
-}
-
-export const fetchMachines = (filter) => {
-    const query = getFilterQuery(filter);
-
-    const url = `${HOST}/api/virtual-machines${query}`
-
-    return fetch(url, {
-        headers,
-        credentials: 'include',
-    })
-        .then((response) => {
-            if (response.ok) {
-                return response.status === 204 ? response : response.json();
-            }
-            const error = new Error(response.statusText);
-            error.response = response;
-            throw error;
-        }).then(({data}) => data);
+export const fetchHypervisors = (id) => {
+    return jsonApi.findAll('hypervisor', { id });
 }
