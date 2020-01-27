@@ -18,6 +18,8 @@ export const Filter = ({onChange}) => {
             <Grid container className={classes.header}>
                 <Grid item >
                     <TextField id="standard-basic" label="Id" onChange={onChange('id')} />
+                </Grid>
+                <Grid item>
                     <TextField id="standard-basic" label="Name" onChange={onChange('name')} />
                 </Grid>
             </Grid>
