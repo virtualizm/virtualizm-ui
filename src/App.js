@@ -7,10 +7,10 @@ import Auth from './components/pages/Auth';
 import './App.css';
 
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
+  HashRouter
 } from "react-router-dom";
 
 
@@ -65,7 +65,7 @@ function App() {
     <StoreProvider>
       <div className="App">
         <Box height='100%' className={classes.rootContainer}>
-          <Router>
+          <HashRouter>
             <Switch>
               <Route path="/#auth">
                 <Auth authStatus={{isAuthenticated, setIsAuthenticated}} />
@@ -74,7 +74,7 @@ function App() {
                 <Main />
               </PrivateRoute>
             </Switch>
-          </Router>
+          </HashRouter>
         </Box>
       </div>
     </StoreProvider>
