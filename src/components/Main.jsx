@@ -154,7 +154,7 @@ export default function Dashboard() {
           <MachineInfo />
         </Route>
 
-        <Route path='/virtual_machines' exac>
+        <Route path='/virtual_machines'>
           <VirtualMachines />
         </Route>
 
