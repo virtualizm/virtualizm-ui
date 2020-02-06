@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,7 +9,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
-import { authorize } from '../../Api';
+import { authorize, fetchSessions } from '../../Api';
+import Loading from "./Loading";
 
 
 const useStyles = makeStyles(theme => ({
@@ -50,9 +51,11 @@ function Auth(props) {
         login: '',
         password: ''
     }
-);
+  );
 
-const handleOnChange = event => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleOnChange = event => {
     const { name, value } = event.target;
     setInputValues({ [name]: value });
 };
@@ -69,9 +72,28 @@ const handleSubmit = async (e) => {
     }
 };
 
+const onLoad = async () => {
+  try {
+    await fetchSessions();
+    props.authStatus.setIsAuthenticated(true);
+    setIsLoading(false);
+    props.history.push('/virtual_machines')
+  } catch (e) {
+    setIsLoading(false);
+    console.error('error', e);
+  }
+};
+
   const classes = useStyles();
 
+  useEffect(() => {
+    onLoad();
+  });
+
   return (
+    isLoading ?
+      <Loading />
+    :
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
