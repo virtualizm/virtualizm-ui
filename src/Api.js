@@ -23,8 +23,8 @@ export const fetchSessions = () => {
     return jsonApi.find('sessions');
 };
 
-export const logout = () => {
-    return jsonApi.destroy('sessions');
+export const deleteSessions = () => {
+    return jsonApi.destroy('sessions', '');
 };
 
 jsonApi.define('virtual-machine', {

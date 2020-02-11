@@ -16,7 +16,7 @@ const renderLabel = ({state}) => {
   );
 }
 
-const Hypervisors = (props) => {
+const VirtualMachines = (props) => {
   const { store, dispatch } = useContext(StoreContext);
 
   const { isLoading, machines } = store;
@@ -64,4 +64,4 @@ const Hypervisors = (props) => {
   );
 }
 
-export default withRouter(Hypervisors);
+export default withRouter(VirtualMachines);
