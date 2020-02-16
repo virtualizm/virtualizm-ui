@@ -7,10 +7,14 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {deleteSessions} from "../Api";
 
 const useStyles = makeStyles(() => ({
-    link: {
-        textDecoration: 'none',
-        color: '#000'
-    }
+  link: {
+      textDecoration: 'none',
+      color: '#000'
+  },
+  logout: {
+    position: 'absolute',
+    bottom: '0px'
+  }
 }))
 
 const Menu = ({isOpen, history}) => {
@@ -37,9 +41,9 @@ const Menu = ({isOpen, history}) => {
                     <ListItemText primary={isOpen ? "Hypervisors" : 'H'} />
                 </ListItem>
              </Link>
-            <ListItem button onClick={handleLogout}>
-              <ListItemText primary={isOpen ? "Logout" : <ExitToAppIcon />} />
-            </ListItem>
+          <ListItem button onClick={handleLogout} className={classes.logout}>
+            <ListItemText primary={isOpen ? "Logout" : <ExitToAppIcon />} />
+          </ListItem>
         </div>
       )
 };
