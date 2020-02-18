@@ -19,6 +19,14 @@ export const authorize = (login, password) => {
     });
 };
 
+export const fetchSessions = () => {
+    return jsonApi.find('sessions');
+};
+
+export const deleteSessions = () => {
+    return jsonApi.destroy('sessions', '');
+};
+
 jsonApi.define('virtual-machine', {
     name: "",
     state: "",
@@ -33,7 +41,7 @@ jsonApi.define('virtual-machine', {
 
 export const fetchVirtualMachines = (id) => {
     return jsonApi.findAll('virtual-machine', {
-        id, 
+        id,
         field: { hypervisors: 'name'},
         include: 'hypervisor'
     });

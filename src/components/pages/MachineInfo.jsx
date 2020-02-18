@@ -6,33 +6,37 @@ import TabPanel from '../TabPanel';
 import { StoreContext } from '../../StoreProvider';
 
 
-  
-function renderList(data){
-    return (
-        <ul>
-            {Object.keys(data).map((field) => {
-                const label = data[field];
-                const isObject = typeof label === 'object';
-                
-                if(isObject) {
-                    return <li>{field} {renderList(label)}</li>;
-                }
 
-                return (
-                    <li key={field}>{`${field}: ${label}`}</li>
-                )
+function renderList(data){
+  if (data) {
+    return (
+      <ul>
+        { Object.keys(data).map((field) => {
+          const label = data[field];
+          const isObject = typeof label === 'object';
+
+          if(isObject) {
+            return <li>{field} {renderList(label)}</li>;
+          }
+
+          return (
+            <li key={field}>{`${field}: ${label}`}</li>
+          )
+        })}
             })}    
-        </ul>
+        })}
+      </ul>
     );
+  }
 }
-  
+
 
 const MachineInfo = (props) => {
     const [tab, setTab] = useState(0);
     const param = props.match.params.id;
 
     const { store } = useContext(StoreContext);
-  
+
     const handleChangeTab = (event, newValue) => {
       setTab(newValue);
     }
@@ -42,15 +46,15 @@ const MachineInfo = (props) => {
     }
 
     const item = store.machines.find(({id}) => id === param);
-  
+
     const { xml, ...fields} = item;
-  
+
     const host = window.location.host;
-  
+
     const isLocalhost = host.indexOf('localhost') !== -1
-  
+
     const url = `${isLocalhost ? 'http://10.255.10.222:8081' : `http://${host}`}/spice/index.html?host=10.255.10.222&port=8081&vmInfoToken=${item.id}`;
-  
+
     return (
       <div className='modal'>
         <>
@@ -59,7 +63,7 @@ const MachineInfo = (props) => {
             <Tab label='General'/>
             <Tab label='XML'/>
           </Tabs>
-    
+
           <TabPanel activeTab={tab} index={0}>
             {renderList(fields)}
             <iframe src={url} title="qwe" width='100%' height='100%' id='myiframe'></iframe>

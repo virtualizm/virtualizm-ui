@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, {useCallback, useEffect, useReducer, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,7 +9,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
-import { authorize } from '../../Api';
+import { authorize, fetchSessions } from '../../Api';
+import Loading from "./Loading";
 
 
 const useStyles = makeStyles(theme => ({
@@ -43,35 +44,56 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Auth(props) {
+function Auth({authStatus, history}) {
   const [inputValues, setInputValues] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
         login: '',
         password: ''
     }
-);
+  );
 
-const handleOnChange = event => {
-    const { name, value } = event.target;
-    setInputValues({ [name]: value });
-};
+  const [isLoading, setIsLoading] = useState(true);
 
-const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleOnChange = event => {
+    const {name, value} = event.target;
+    setInputValues({[name]: value});
+  };
 
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      try {
+          await authorize(inputValues.login, inputValues.password);
+          await authStatus.setIsAuthenticated(true);
+          history.push('/virtual_machines')
+      } catch (e) {
+          // handle error here
+      }
+  };
+
+  const onLoad = useCallback(async () => {
     try {
-        await authorize(inputValues.login, inputValues.password);
-        await props.authStatus.setIsAuthenticated(true);
-        props.history.push('/virtual_machines')
+      await fetchSessions();
+      authStatus.setIsAuthenticated(true);
+      setIsLoading(false);
+      history.push('/virtual_machines')
     } catch (e) {
-        // handle error here
+      setIsLoading(false);
+      console.error('error', e);
     }
-};
+  }, [authStatus, history]);
 
   const classes = useStyles();
 
+  useEffect(() => {
+    onLoad();
+  }, [onLoad]);
+
   return (
+    isLoading ?
+      <Loading />
+    :
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />

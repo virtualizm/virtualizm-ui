@@ -99,6 +99,9 @@ const useStyles = makeStyles(theme => ({
   searchField: {
     color: '#fff',
     width: 'auto'
+  },
+  list: {
+    height: '100%'
   }
 }));
 
@@ -143,10 +146,9 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        <List>
+        <List className={classes.list}>
           <Menu isOpen={open}/>
         </List>
-        <Divider />
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
