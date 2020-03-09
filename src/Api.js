@@ -68,3 +68,13 @@ jsonApi.define('hypervisor', {
 export const fetchHypervisors = (id) => {
     return jsonApi.findAll('hypervisor', { id });
 }
+
+
+export const subscribeOnSocket = (cb) => {
+    const socketInstance = new WebSocket('wss://vm.in.onat.edu.ua/ws_events');
+
+    socketInstance.onmessage = cb;
+    socketInstance.onopen = () => {
+        console.log('connected');
+    }
+}

@@ -1,9 +1,11 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
+import { subscribeOnSocket } from './Api';
 
 export const addHypervisors = (payload) => ({type: 'ADD_HYPERVISORS', payload });
 export const addMachines = (payload) => ({type: 'ADD_MACHINES', payload});
 export const startLoading = () => ({type: 'START_LOADING'});
 export const stopLoading = () => ({type: 'STOP_LOADING'});
+export const updateMachineState = (payload) => ({type: 'UPDATE_MACINE_STATE', payload});
 
 const state = {
     isLoading: false,
@@ -40,6 +42,22 @@ const Reducer = (state, {type, payload}) => {
                 isLoading: false
             }
 
+        case 'UPDATE_MACINE_STATE': {
+            return {
+                ...state,
+                machines: state.machines.map((item) => {
+                    if(item.id === payload.payload.id) {
+                        return {
+                            ...item,
+                            state: payload.payload.attributes.state.toLowerCase()
+                        }
+                    }
+
+                    return item;
+                })
+            }
+        }
+
         default:
             return state;
     }
@@ -52,6 +70,14 @@ export const StoreProvider = ({children}) => {
     const providedValue = {
         store, dispatch
     }
+
+    useEffect(() => {
+        function stateUpdate(payload) {
+            dispatch(updateMachineState(payload));
+        }
+
+        subscribeOnSocket(stateUpdate);
+    }, [dispatch]);
 
     return (
         <StoreContext.Provider value={providedValue}>
