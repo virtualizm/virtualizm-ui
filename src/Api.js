@@ -19,6 +19,14 @@ export const authorize = (login, password) => {
     });
 };
 
+export const rebootVm = (vmId) => {
+    return jsonApi.update('virtual-machine', {
+        id: vmId,
+        type: 'virtual-machines',
+        state:'reboot'
+    });
+};
+
 export const fetchSessions = () => {
     return jsonApi.find('sessions');
 };
