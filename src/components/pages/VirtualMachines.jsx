@@ -4,7 +4,7 @@ import MaterialTable from 'material-table';
 import pretty from 'prettysize';
 import { fetchVirtualMachines } from '../../Api';
 import { addMachines, startLoading, stopLoading, StoreContext } from '../../StoreProvider'
-import '../../App.css';
+import '../../App.scss';
 
 const renderLabel = ({state}) => {
   const className = state === 'running' ? 'running': 'down';
