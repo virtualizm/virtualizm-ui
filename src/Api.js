@@ -19,11 +19,11 @@ export const authorize = (login, password) => {
     });
 };
 
-export const rebootVm = (vmId) => {
+export const setVmState = (vmId, state) => {
     return jsonApi.update('virtual-machine', {
         id: vmId,
         type: 'virtual-machines',
-        state:'reboot'
+        state:state
     });
 };
 
