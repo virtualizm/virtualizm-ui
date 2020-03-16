@@ -7,7 +7,7 @@ import {
   startLoading,
   stopLoading,
   addHypervisors,
-} from "../../StoreProvider";
+} from "../../app/store";
 
 const Hypervisors = () => {
   const { store, dispatch } = useContext(StoreContext);

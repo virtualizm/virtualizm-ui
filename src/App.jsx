@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Switch, Route, Redirect, HashRouter } from "react-router-dom";
-import Main from "./components/Main";
-import { StoreProvider } from "./StoreProvider";
-import Auth from "./components/pages/Auth";
-import "./App.scss";
+import Main from "./features/Main";
+import Auth from "./features/pages/Auth";
+import { StoreProvider } from "./components/StoreProvider";
+import "antd/dist/antd.css";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

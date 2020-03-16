@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useCallback } from "react";
+import React, { useEffect, useContext, useCallback, useMemo } from "react";
 import { withRouter, useHistory } from "react-router-dom";
 import { Table, Button } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
@@ -9,8 +9,7 @@ import {
   startLoading,
   stopLoading,
   StoreContext,
-} from "../../StoreProvider";
-import "../../App.scss";
+} from "../../app/store";
 
 const renderLabel = (_, { state }) => {
   const className = state === "running" ? "running" : "down";
@@ -35,7 +34,17 @@ const Action = (_, { id }) => {
 const VirtualMachines = () => {
   const { store, dispatch } = useContext(StoreContext);
 
-  const { isLoading, machines } = store;
+  const { isLoading, machines, filter } = store;
+
+  const dataSource = useMemo(() => {
+    return machines.filter(
+      machine =>
+        machine.id.includes(filter) ||
+        machine.name.includes(filter) ||
+        machine.state.includes(filter) ||
+        machine.hypervisor.name.includes(filter)
+    );
+  }, [filter, machines]);
 
   const fetchData = useCallback(async () => {
     dispatch(startLoading());
@@ -56,7 +65,7 @@ const VirtualMachines = () => {
     <React.Fragment>
       <Table
         bordered
-        dataSource={machines}
+        dataSource={dataSource}
         isLoading={isLoading}
         columns={[
           {

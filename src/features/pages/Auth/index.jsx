@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { Row, Col, Card, Input, Button, message } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
-import { authorize, fetchSessions } from "../../utils/api";
-import Loading from "./Loading";
-import "../../App.scss";
+import { authorize, fetchSessions } from "../../../utils/api";
+import Loading from "../Loading";
+import styles from "./styles.module.scss";
 
 function Auth({ authStatus, history }) {
   const [inputValues, setInputValues] = useReducer(
@@ -55,13 +55,13 @@ function Auth({ authStatus, history }) {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="login-bg">
+    <div className={styles.background}>
       <Row justify="end">
         <Col xl={8} md={10} sm={15} xs={24}>
-          <Card className="login__wrapper">
+          <Card className={styles.wrapper}>
             <Row justify="center">
               <Col span={24}>
-                <div className="login__header">
+                <div className={styles.header}>
                   <LoginOutlined height="20" />
                   <h1>Login</h1>
                 </div>
@@ -73,18 +73,18 @@ function Auth({ authStatus, history }) {
                   name="login"
                   onChange={handleOnChange}
                 />
-                <div className="divider" />
+                <div className={styles.divider} />
                 <Input.Password
                   placeholder="password"
                   size="large"
                   name="password"
                   onChange={handleOnChange}
                 />
-                <div className="divider" />
+                <div className={styles.divider} />
                 <Button
                   type="primary"
                   size="large"
-                  className="login__btn"
+                  className={styles.loginBtn}
                   onClick={handleSubmit}
                   onPressEnter={handleSubmit}
                 >
