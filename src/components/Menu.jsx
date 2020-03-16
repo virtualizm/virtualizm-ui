@@ -1,51 +1,36 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { withRouter, Link } from 'react-router-dom';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import {deleteSessions} from "../Api";
+import React from "react";
+import { withRouter, Link } from "react-router-dom";
+import { Menu } from "antd";
+import { ThunderboltOutlined, DesktopOutlined } from "@ant-design/icons";
+import { deleteSessions } from "../utils/api";
+import "../App.scss";
 
-const useStyles = makeStyles(() => ({
-  link: {
-      textDecoration: 'none',
-      color: '#000'
-  },
-  logout: {
-    position: 'absolute',
-    bottom: '0px'
-  }
-}))
-
-const Menu = ({isOpen, history}) => {
-  const classes = useStyles();
-
-  const handleLogout = async (e) => {
+const SideMenu = ({ isOpen, history }) => {
+  const handleLogout = async e => {
     try {
       await deleteSessions();
-      history.push('/auth')
+      history.push("/auth");
     } catch (e) {
       // handle error here
     }
   };
 
-    return (
-        <div>
-            <Link to='/virtual_machines' className={classes.link}>
-                <ListItem button>
-                    <ListItemText primary={isOpen ? 'Virtual Machines' : 'VM'} />
-                </ListItem>
-            </Link>
-            <Link to='/hypervisors' className={classes.link}>
-                <ListItem button>
-                    <ListItemText primary={isOpen ? "Hypervisors" : 'H'} />
-                </ListItem>
-             </Link>
-          <ListItem button onClick={handleLogout} className={classes.logout}>
-            <ListItemText primary={isOpen ? "Logout" : <ExitToAppIcon />} />
-          </ListItem>
-        </div>
-      )
+  return (
+    <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+      <Menu.Item key="1" className="menu-item">
+        <Link to="/virtual_machines">
+          <DesktopOutlined />
+          <span className="menu-item__text">Machines</span>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="2" className="menu-item">
+        <Link to="/hypervisors">
+          <ThunderboltOutlined />
+          <span className="menu-item__text">Hypervisors</span>
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
 };
 
-export default withRouter(Menu);
+export default withRouter(SideMenu);

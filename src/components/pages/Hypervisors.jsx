@@ -1,9 +1,13 @@
-import React, { useEffect, useContext, useCallback } from 'react';
-import pretty from 'prettysize';
-import MaterialTable from 'material-table';
-import { fetchHypervisors } from '../../Api';
-import { StoreContext, startLoading, stopLoading, addHypervisors } from '../../StoreProvider';
-
+import React, { useEffect, useContext, useCallback } from "react";
+import pretty from "prettysize";
+import { Table } from "antd";
+import { fetchHypervisors } from "../../utils/api";
+import {
+  StoreContext,
+  startLoading,
+  stopLoading,
+  addHypervisors,
+} from "../../StoreProvider";
 
 const Hypervisors = () => {
   const { store, dispatch } = useContext(StoreContext);
@@ -14,7 +18,7 @@ const Hypervisors = () => {
     dispatch(startLoading());
     const json = await fetchHypervisors();
 
-    if(!json.errors) {
+    if (!json.errors) {
       dispatch(addHypervisors(json.data));
     }
 
@@ -22,23 +26,29 @@ const Hypervisors = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, [fetchData]);
 
   return (
-    <MaterialTable
-        title='Hypervisors'
-        data={ hypervisors }
-        isLoading={isLoading}
-        columns={[
-          { title: 'Id', field: 'id' },
-          { title: 'Name', field: 'name' },
-          { title: 'CPUs', field: 'cpus' },
-          { title: 'mhz', field: 'mhz' },
-          { title: 'Total Memory', field: 'total-memory', render: (data) => pretty(data['total-memory'])},
-        ]}
-      />
+    <Table
+      bordered
+      dataSource={hypervisors}
+      isLoading={isLoading}
+      columns={[
+        { title: "Id", dataIndex: "id", key: "id" },
+        { title: "Name", dataIndex: "name", key: "name" },
+        { title: "CPUs", dataIndex: "cpus", key: "cpus" },
+        { title: "mhz", dataIndex: "mhz", key: "mhz" },
+        {
+          title: "Total Memory",
+          dataIndex: "total-memory",
+          key: "total-memory",
+          render: (row, data) => pretty(data["total-memory"]),
+        },
+      ]}
+      pagination={{ showSizeChanger: true }}
+    />
   );
-}
+};
 
 export default Hypervisors;
