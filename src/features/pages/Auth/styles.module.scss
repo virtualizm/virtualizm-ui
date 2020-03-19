@@ -1,0 +1,31 @@
+.divider {
+  height: 10px;
+  width: 100%;
+}
+
+.background {
+  background-size: cover;
+  background-color: #fafafa;
+  background-image: url("https://source.unsplash.com/random");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.wrapper {
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  svg {
+    height: 30px;
+    width: 30px;
+  }
+}
+
+.loginBtn {
+  width: 100%;
+}

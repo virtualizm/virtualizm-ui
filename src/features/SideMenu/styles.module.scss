@@ -1,0 +1,10 @@
+.menu {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.menuItemText {
+  padding-left: 5px;
+}

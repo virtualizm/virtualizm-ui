@@ -16,7 +16,7 @@ export const authorize = (login, password) => {
     return jsonApi.create('session', {
         login: login,
         password: password
-    });
+    })
 };
 
 export const setVmState = (vmId, state) => {
