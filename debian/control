@@ -1,0 +1,13 @@
+Source: virtualizm-ui
+Maintainer: Virtualizm team <team@virtualizm.org>
+Section: net
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9)
+
+Package: virtualizm-ui
+Section: net
+Architecture: amd64
+Depends: ${shlibs:Depends}
+Conflicts: virtualizm-ui
+Description: Virtualizm JS UI

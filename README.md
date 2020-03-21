@@ -1,3 +1,5 @@
+![Virtualizm UI](doc/virtualizm-ui-vm.png)
+
 # Set up 
 
 ### Install dependencies
