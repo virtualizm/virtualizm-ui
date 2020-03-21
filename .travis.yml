@@ -1,0 +1,66 @@
+sudo: required
+services:
+- docker
+git:
+  depth: false
+language: node_js
+node_js:
+- '10'
+stages:
+- build application
+- stable package
+- nightly package
+jobs:
+  include:
+  - stage: build application
+    name: Test build
+    script: yarn build
+  - stage: stable package
+    if: branch != master OR tag =~ ^.*$
+    env: CACHE_NAME=yeti_client_package
+    name: Stable package - Stretch + Buster
+    script: &1
+    - docker build -t virtualizm-ui -f ./ci/build_buster.Dockerfile .
+    - docker run --name virtualizm-ui virtualizm-ui && docker commit virtualizm-ui virtualizm-ui:built
+    deploy:
+      - skip_cleanup: true
+        provider: script
+        script:
+          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" stretch "${TRAVIS_TAG:0:3}" main /build/*.deb
+        on:
+          tags: true
+          condition: "$TRAVIS_TAG != *-master*"
+          repo: yeti-switch/virtualizm-ui
+      - skip_cleanup: true
+        provider: script
+        script:
+          docker run --name virtualizm-ui-deploy2 virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster "${TRAVIS_TAG:0:3}" main /build/*.deb
+        on:
+          tags: true
+          condition: "$TRAVIS_TAG != *-master*"
+          repo: yeti-switch/virtualizm-ui
+
+  - stage: nightly package
+    if: branch = master
+    env: CACHE_NAME=yeti_client_package
+    name: Nightly package - Stretch + Buster
+    script: *1
+    deploy:
+      - skip_cleanup: true
+        provider: script
+        script:
+          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" stretch nightly main /build/*.deb 
+        on:
+          all_branches: true
+          repo: yeti-switch/virtualizm-ui
+      - skip_cleanup: true
+        provider: script
+        script:
+          docker run --name virtualizm-ui-deploy2 virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster nightly main /build/*.deb 
+        on:
+          all_branches: true
+          repo: yeti-switch/virtualizm-ui
+
+env:
+  global:
+    secure: UdLEqz0uHBcDWAMae0uUayO11EMn0dunAC9hY9D1Tj3u8o7y7CZETVRXN1YG5IIah/e+x5GcNM1UqnXjPXICwc/eW4/ENuY/bTpCQCF9qYh3ki6sh5qDS+Rk3yvckrtZT3qPYkesLQubscezWyYOuh42CyGfM0jP18VJBJXokpFaoPbZYvOm4dEcZU+TlGGrFedbrDkrnb+hX1louwx/uGmLnrCkdV4Zwv5Hk8Zqo3GCvlDO40ns84l1u4ekVkHhm9dAcRotNRGL9lTC0Vm5OEEEK+jOCg71e8LVKDnMd6fripZUALiNmhDBCHBYduGdlyLCIHqhX8rhjQziiID8HsJ2BwswhuhGBBoIWYOV4S0oqTZFnds45lai2j61NIf2Tj7PuBJ4KxlH9BPLpnGEQVzvNFDIwXPw54ZIu66g77yVPp4byfC5xj7DcuZ4OL78cfUlimITRmh1NE1sGnZORw/JvYCI8uLy2kJbq0WGrsY2PVva+NQZXK+fNnGmnlDpONnaVrLElR3fnsc8WDO+x3K68snpmk8QPfx0fd0SBcVUNkMw/ducqwX2vIAiy2/upjSksiM4FpvLJs8qW6xTKPSdmKIEAORcWVQLys1k4zsdfeMtVU2MPxMFTXgABavtZ0nHiqjX8LbdBRKqSEVFjKRBpe6HHdrAG1VpSBObNkk=
