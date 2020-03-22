@@ -1,5 +1,6 @@
 import JsonApi from "devour-client";
-const jsonApi = new JsonApi({ apiUrl: "https://vm.in.onat.edu.ua/api" });
+import { apiUrl } from '../../config'
+const jsonApi = new JsonApi({ apiUrl });
 
 jsonApi.headers["Content-Type"] = "application/vnd.api+json";
 jsonApi.headers["Accept"] = "application/vnd.api+json";
