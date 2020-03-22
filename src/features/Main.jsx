@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Result, Button } from "antd";
+import { Layout } from "antd";
 import { Route } from "react-router-dom";
 import Hypervisors from "./pages/Hypervisors";
 import VirtualMachines from "./pages/VirtualMachines";

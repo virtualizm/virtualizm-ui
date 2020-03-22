@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Tabs, Button } from "antd";
 import { Console, Details, Xml } from "./VirtualMachineInfo";
 import { StoreContext } from "../../app/store";

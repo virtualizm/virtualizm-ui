@@ -29,7 +29,7 @@ function Auth({ authStatus, history }) {
 
     try {
       await authorize(inputValues.login, inputValues.password);
-      await authStatus.setIsAuthenticated(true);
+      authStatus.setIsAuthenticated(true);
       history.push("/virtual_machines");
     } catch (e) {
       message.error(e[0].title);
