@@ -86,7 +86,7 @@ const VirtualMachines = () => {
             title: "memory",
             dataIndex: "memory",
             key: "memory",
-            render: ({ memory }) => pretty(memory),
+            render: memory => pretty(memory),
           },
           { title: "CPUs", dataIndex: "cpus", key: "cpus" },
           {
