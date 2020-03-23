@@ -26,15 +26,7 @@ jobs:
       - skip_cleanup: true
         provider: script
         script:
-          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" stretch "${TRAVIS_TAG:0:3}" main /build/*.deb
-        on:
-          tags: true
-          condition: "$TRAVIS_TAG != *-master*"
-          repo: virtualizm/virtualizm-ui
-      - skip_cleanup: true
-        provider: script
-        script:
-          docker run --name virtualizm-ui-deploy2 virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster "${TRAVIS_TAG:0:3}" main /build/*.deb
+          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster "${TRAVIS_TAG:0:3}" main /build/*.deb
         on:
           tags: true
           condition: "$TRAVIS_TAG != *-master*"
@@ -49,14 +41,7 @@ jobs:
       - skip_cleanup: true
         provider: script
         script:
-          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" stretch nightly main /build/*.deb 
-        on:
-          all_branches: true
-          repo: virtualizm/virtualizm-ui
-      - skip_cleanup: true
-        provider: script
-        script:
-          docker run --name virtualizm-ui-deploy2 virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster nightly main /build/*.deb 
+          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster nightly main /build/*.deb 
         on:
           all_branches: true
           repo: virtualizm/virtualizm-ui
