@@ -1,6 +1,10 @@
+# Virtualizm UI
+[![Build Status](https://travis-ci.org/virtualizm/virtualizm-ui.svg?branch=master)](https://travis-ci.org/virtualizm/virtualizm-ui)
+
+
 ![Virtualizm UI](doc/virtualizm-ui-vm.png)
 
-# Set up 
+# Contributing, Development setup
 
 ### Install dependencies
 #### `yarn install`
