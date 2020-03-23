@@ -1,4 +1,4 @@
-pkg_name = virtualizm-ui 
+pkg_name = virtualizm-ui
 
 lintian_flag := $(if $(lintian),--lintian,--no-lintian)
 debian_host_release != lsb_release -sc
