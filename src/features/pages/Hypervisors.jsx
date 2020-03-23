@@ -41,9 +41,9 @@ const Hypervisors = () => {
         { title: "mhz", dataIndex: "mhz", key: "mhz" },
         {
           title: "Total Memory",
-          dataIndex: "total-memory",
-          key: "total-memory",
-          render: (row, data) => pretty(data["total-memory"]),
+          dataIndex: "total_memory",
+          key: "total_memory",
+          render: total_memory => pretty(total_memory),
         },
       ]}
       pagination={{ showSizeChanger: true }}
