@@ -1,6 +1,5 @@
 import JsonApi from 'devour-client'
-import { apiUrl, wsUrl } from './config'
-const jsonApi = new JsonApi({apiUrl})
+const jsonApi = new JsonApi({ apiUrl: window.CONFIG.apiUrl })
 
 jsonApi.headers['Content-Type'] = 'application/vnd.api+json';
 jsonApi.headers['Accept'] = 'application/vnd.api+json';
@@ -80,7 +79,7 @@ export const fetchHypervisors = (id) => {
 
 
 export const subscribeOnSocket = (cb) => {
-    const socketInstance = new WebSocket(wsUrl);
+    const socketInstance = new WebSocket(window.CONFIG.wsUrl);
 
     socketInstance.onmessage = cb;
     socketInstance.onopen = () => {
