@@ -1,4 +1,4 @@
-pkg_name = virtualizm-ui 
+pkg_name = virtualizm-ui
 
 lintian_flag := $(if $(lintian),--lintian,--no-lintian)
 debian_host_release != lsb_release -sc
@@ -47,6 +47,7 @@ else
 	@$(info:msg=Generating changelog Supply auto_chlog=no to skip.)
 	@which changelog-gen || { $(err:msg=Failed to generate changelog. Did you install git-changelog package?) && false; }
 	changelog-gen -p "$(pkg_name)" -d "$(debian_host_release)" -A "s/_/~/g" "s/-master/~master/" "s/-rc/~rc/"
+	cat debian/changelog
 endif
 
 

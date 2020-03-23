@@ -17,7 +17,7 @@ jobs:
     script: yarn build
   - stage: stable package
     if: branch != master OR tag =~ ^.*$
-    env: CACHE_NAME=yeti_client_package
+    env: CACHE_NAME=virtualizm_ui_package
     name: Stable package - Stretch + Buster
     script: &1
     - docker build -t virtualizm-ui -f ./ci/build_buster.Dockerfile .
@@ -26,40 +26,25 @@ jobs:
       - skip_cleanup: true
         provider: script
         script:
-          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" stretch "${TRAVIS_TAG:0:3}" main /build/*.deb
+          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster "${TRAVIS_TAG:0:3}" main /build/*.deb
         on:
           tags: true
           condition: "$TRAVIS_TAG != *-master*"
-          repo: yeti-switch/virtualizm-ui
-      - skip_cleanup: true
-        provider: script
-        script:
-          docker run --name virtualizm-ui-deploy2 virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster "${TRAVIS_TAG:0:3}" main /build/*.deb
-        on:
-          tags: true
-          condition: "$TRAVIS_TAG != *-master*"
-          repo: yeti-switch/virtualizm-ui
+          repo: virtualizm/virtualizm-ui
 
   - stage: nightly package
     if: branch = master
-    env: CACHE_NAME=yeti_client_package
+    env: CACHE_NAME=virtualizm_ui_package
     name: Nightly package - Stretch + Buster
     script: *1
     deploy:
       - skip_cleanup: true
         provider: script
         script:
-          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" stretch nightly main /build/*.deb 
+          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster nightly main /build/*.deb 
         on:
           all_branches: true
-          repo: yeti-switch/virtualizm-ui
-      - skip_cleanup: true
-        provider: script
-        script:
-          docker run --name virtualizm-ui-deploy2 virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster nightly main /build/*.deb 
-        on:
-          all_branches: true
-          repo: yeti-switch/virtualizm-ui
+          repo: virtualizm/virtualizm-ui
 
 env:
   global:
