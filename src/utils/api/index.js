@@ -1,4 +1,5 @@
 import JsonApi from "devour-client";
+
 const jsonApi = new JsonApi({ apiUrl: window.CONFIG.apiUrl });
 
 jsonApi.headers["Content-Type"] = "application/vnd.api+json";
@@ -32,6 +33,9 @@ jsonApi.define("virtual-machine", {
   memory: 0,
   cpus: 0,
   xml: "",
+  tags: [],
+  graphics: [],
+  disks: [],
   hypervisor: {
     jsonApi: "hasOne",
     type: "hypervisors",
