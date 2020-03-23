@@ -23,29 +23,25 @@ jobs:
     - docker build -t virtualizm-ui -f ./ci/build_buster.Dockerfile .
     - docker run --name virtualizm-ui virtualizm-ui && docker commit virtualizm-ui virtualizm-ui:built
     deploy:
-      - skip_cleanup: true
-        provider: script
-        script:
-          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster "${TRAVIS_TAG:0:3}" main /build/*.deb
-        on:
-          tags: true
-          condition: "$TRAVIS_TAG != *-master*"
-          repo: virtualizm/virtualizm-ui
-
+    - skip_cleanup: true
+      provider: script
+      script: docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster "${TRAVIS_TAG:0:3}" main /build/*.deb
+      on:
+        tags: true
+        condition: "$TRAVIS_TAG != *-master*"
+        repo: virtualizm/virtualizm-ui
   - stage: nightly package
     if: branch = master
     env: CACHE_NAME=virtualizm_ui_package
     name: Nightly package - Stretch + Buster
     script: *1
     deploy:
-      - skip_cleanup: true
-        provider: script
-        script:
-          docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster nightly main /build/*.deb 
-        on:
-          all_branches: true
-          repo: virtualizm/virtualizm-ui
-
+    - skip_cleanup: true
+      provider: script
+      script: docker run --name virtualizm-ui-deploy virtualizm-ui:built ci/deploy.sh "$API_ENDPOINT" buster nightly main /build/*.deb
+      on:
+        all_branches: true
+        repo: virtualizm/virtualizm-ui
 env:
   global:
-    secure: UdLEqz0uHBcDWAMae0uUayO11EMn0dunAC9hY9D1Tj3u8o7y7CZETVRXN1YG5IIah/e+x5GcNM1UqnXjPXICwc/eW4/ENuY/bTpCQCF9qYh3ki6sh5qDS+Rk3yvckrtZT3qPYkesLQubscezWyYOuh42CyGfM0jP18VJBJXokpFaoPbZYvOm4dEcZU+TlGGrFedbrDkrnb+hX1louwx/uGmLnrCkdV4Zwv5Hk8Zqo3GCvlDO40ns84l1u4ekVkHhm9dAcRotNRGL9lTC0Vm5OEEEK+jOCg71e8LVKDnMd6fripZUALiNmhDBCHBYduGdlyLCIHqhX8rhjQziiID8HsJ2BwswhuhGBBoIWYOV4S0oqTZFnds45lai2j61NIf2Tj7PuBJ4KxlH9BPLpnGEQVzvNFDIwXPw54ZIu66g77yVPp4byfC5xj7DcuZ4OL78cfUlimITRmh1NE1sGnZORw/JvYCI8uLy2kJbq0WGrsY2PVva+NQZXK+fNnGmnlDpONnaVrLElR3fnsc8WDO+x3K68snpmk8QPfx0fd0SBcVUNkMw/ducqwX2vIAiy2/upjSksiM4FpvLJs8qW6xTKPSdmKIEAORcWVQLys1k4zsdfeMtVU2MPxMFTXgABavtZ0nHiqjX8LbdBRKqSEVFjKRBpe6HHdrAG1VpSBObNkk=
+    secure: oJPdQsWboMFSulx+PDTskjeri6BCjTHUDvSummLIfOvnkwgfSn9D0YCrR9tUJngSU7TOVoftiAKB9zb5FmV35wdrUBz2DBDRox15Kvnhpn2vzVoxXbJ4CvcEpsXXb94G/O5enS6h15xNkliWo92lcy4tJkCCcp0Tf1jB3KTLT5GPsknnv3ojoWaKdsJGQtWn3pDGJwPGjxKm5DN+gXPVgxxRDp/ZutlC1dsHEHKJz0e7mF/2ff4UT2GkvDaiWm3OWzVAgT8YYKUMPKitIa8sw70E3/t4dhQdlg3fm1h5SkK9DvC2rAqopZxUpSWpyj3eMbIs2a/GjQKaaPof6GxFwSmdEYkganQI54m3H0fkmqMPJMo3g2eIvqJWCQCQWD/KEFLk4mgamxgew5Sf0eC9odLboGfwa/7+1bj7Ita4W4QKQ+/35GBoXAdYnCcweZPO418LIAwot9iXeSGMMUimk4r9ktpyWJSdrrcMotaRUPmcEghsK+NN66a7jPDqbMoUlHk2tAym1lWtYgEduhxT1Gltxk6ESruN+xpP0MDpOPlOrttwzcSxu1OKL0aDocW/nTCZBROx4pSnncHq1kdxlJF9RqFWxU9nVJFnKZ53vMwTE72yL9QTcDLUt401+TxUg77bda8iRG4Om4+jTpIXyb8Du7nNcObZAvCBl9GspVo=
