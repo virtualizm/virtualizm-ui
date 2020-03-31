@@ -1,8 +1,10 @@
 .menu {
+  position: fixed;
   display: flex;
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
+  padding-bottom: 50px;
 }
 
 .menuItemText {

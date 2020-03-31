@@ -1,14 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const host = window.location.host;
-
-const isLocalhost = host.indexOf("localhost") !== -1;
+const isLocalhost = window.location.origin.indexOf("localhost") !== -1;
+const host = isLocalhost ? "https://vm.in.onat.edu.ua" : window.location.origin;
 
 export const Console = ({ id }) => {
-  const url = `${
-    isLocalhost ? "http://10.255.10.222:8081" : `http://${host}`
-  }/spice/index.html?host=10.255.10.222&port=8081&vmInfoToken=${id}`;
+  const url = `${host}/spice/index.html?url=wss://vm.in.onat.edu.ua/spice/${id}`;
 
   return (
     <iframe
