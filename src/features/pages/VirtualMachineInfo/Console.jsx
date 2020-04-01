@@ -1,14 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const host = window.location.host;
+const protocolMap = {
+  "http:": "ws:",
+  "https:": "wss:",
+};
 
-const isLocalhost = host.indexOf("localhost") !== -1;
+const isLocalhost = window.location.origin.indexOf("localhost") !== -1;
+const host = isLocalhost ? "vm.in.onat.edu.ua" : window.location.host;
+const protocol = window.location.protocol;
+const spiceProtocol = isLocalhost ? "wss:" : protocolMap[protocol];
 
 export const Console = ({ id }) => {
-  const url = `${
-    isLocalhost ? "http://10.255.10.222:8081" : `http://${host}`
-  }/spice/index.html?host=10.255.10.222&port=8081&vmInfoToken=${id}`;
+  const url = `${protocol}//${host}/spice/index.html?url=${spiceProtocol}//${host}/api/spice/${id}`;
 
   return (
     <iframe

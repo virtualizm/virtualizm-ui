@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useCallback, useMemo } from "react";
 import { withRouter, useHistory } from "react-router-dom";
-import { Table, Button } from "antd";
+import { Table, Button, Tag } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import pretty from "prettysize";
 import { fetchVirtualMachines } from "../../utils/api";
@@ -11,10 +11,10 @@ import {
   StoreContext,
 } from "../../app/store";
 
-const renderLabel = (_, { state }) => {
-  const className = state === "running" ? "running" : "down";
+const renderLabel = state => {
+  const color = state === "running" ? "green" : "red";
 
-  return <div className={`label ${className}`}>{state}</div>;
+  return <Tag color={color}>{state}</Tag>;
 };
 
 const Action = (_, { id }) => {
