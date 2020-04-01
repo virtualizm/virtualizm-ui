@@ -19,6 +19,14 @@ export const authorize = (login, password) => {
   });
 };
 
+export const setVmState = (vmId, state) => {
+  return jsonApi.update("virtual-machine", {
+    id: vmId,
+    type: "virtual-machines",
+    state: state,
+  });
+};
+
 export const fetchSessions = () => {
   return jsonApi.find("sessions");
 };
