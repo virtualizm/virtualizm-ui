@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styles from "./styles.module.scss";
 
 const protocolMap = {
   "http:": "ws:",
@@ -15,13 +16,15 @@ export const Console = ({ id }) => {
   const url = `${protocol}//${host}/spice/index.html?url=${spiceProtocol}//${host}/api/spice/${id}`;
 
   return (
-    <iframe
-      src={url}
-      title="qwe"
-      width="100%"
-      height="100%"
-      id="myiframe"
-    ></iframe>
+    <div className={styles.console}>
+      <iframe
+        src={url}
+        title="qwe"
+        width="100%"
+        height="100%"
+        id="myiframe"
+      ></iframe>
+    </div>
   );
 };
 
