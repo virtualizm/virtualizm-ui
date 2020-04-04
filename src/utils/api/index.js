@@ -74,6 +74,7 @@ jsonApi.define("hypervisor", {
   total_memory: 0,
   free_memory: 0,
   capabilities: "",
+  connected: false,
 });
 
 export const fetchHypervisors = id => {
