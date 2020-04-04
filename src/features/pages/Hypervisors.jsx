@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useCallback } from "react";
 import pretty from "prettysize";
-import { Table, Tag} from "antd";
+import { Table, Tag } from "antd";
 import { fetchHypervisors } from "../../utils/api";
 import {
   StoreContext,
