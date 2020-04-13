@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { Row, Col, Card, Input, Button, message } from "antd";
+import { Form, Row, Col, Card, Input, Button, message } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
 import { authorize, fetchSessions } from "../../../utils/api";
 import Loading from "../Loading";
@@ -66,30 +66,33 @@ function Auth({ authStatus, history }) {
                   <h1>Login</h1>
                 </div>
               </Col>
-              <Row gutter={20}>
-                <Input
-                  placeholder="login"
-                  size="large"
-                  name="login"
-                  onChange={handleOnChange}
-                />
-                <div className={styles.divider} />
-                <Input.Password
-                  placeholder="password"
-                  size="large"
-                  name="password"
-                  onChange={handleOnChange}
-                />
-                <div className={styles.divider} />
-                <Button
-                  type="primary"
-                  size="large"
-                  className={styles.loginBtn}
-                  onClick={handleSubmit}
-                  onPressEnter={handleSubmit}
-                >
-                  Sign in
-                </Button>
+              <Row gutter={20} className={styles.row}>
+                <Form className={styles.form}>
+                  <Input
+                    placeholder="login"
+                    size="large"
+                    name="login"
+                    onChange={handleOnChange}
+                  />
+                  <div className={styles.divider} />
+                  <Input.Password
+                    placeholder="password"
+                    size="large"
+                    name="password"
+                    onChange={handleOnChange}
+                  />
+                  <div className={styles.divider} />
+                  <Button
+                    type="primary"
+                    size="large"
+                    htmlType="submit"
+                    className={styles.loginBtn}
+                    onClick={handleSubmit}
+                    onPressEnter={handleSubmit}
+                  >
+                    Sign in
+                  </Button>
+                </Form>
               </Row>
             </Row>
           </Card>
