@@ -17,6 +17,13 @@ const renderLabel = state => {
   return <Tag color={color}>{state}</Tag>;
 };
 
+const renderType = is_persistent => {
+  if (is_persistent) {
+   return <Tag color="blue">Persistent</Tag>;
+  }
+  return <Tag color="orange">Transient</Tag>;
+};
+
 const Action = (_, { id }) => {
   const history = useHistory();
 
@@ -81,6 +88,12 @@ const VirtualMachines = () => {
             dataIndex: "state",
             key: "state",
             render: renderLabel,
+          },
+          {
+            title: "Type", 
+            dataIndex: "is_persistent", 
+            key: "is_persistent", 
+            render: renderType 
           },
           {
             title: "memory",
