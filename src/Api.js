@@ -37,7 +37,9 @@ export const deleteSessions = () => {
 
 jsonApi.define('virtual-machine', {
     name: "",
+    tags: [],
     state: "",
+    is_persistent: true,
     memory: 0,
     cpus: 0,
     xml: '',

@@ -17,6 +17,17 @@ const renderLabel = state => {
   return <Tag color={color}>{state}</Tag>;
 };
 
+const renderType = isPersistent => {
+  if (isPersistent) {
+   return <Tag color="blue">Persistent</Tag>;
+  }
+  return <Tag color="orange">Transient</Tag>;
+};
+
+const renderTag = tags => {
+  return tags.map(tag =>(<Tag color="blue">{tag}</Tag>));
+};
+
 const Action = (_, { id }) => {
   const history = useHistory();
 
@@ -76,11 +87,18 @@ const VirtualMachines = () => {
           },
           { title: "Id", dataIndex: "id", key: "id" },
           { title: "Name", dataIndex: "name", key: "name" },
+          { title: "Tags", dataIndex: "tags", key: "tags", render: renderTag },
           {
             title: "State",
             dataIndex: "state",
             key: "state",
             render: renderLabel,
+          },
+          {
+            title: "Type", 
+            dataIndex: "is_persistent", 
+            key: "is_persistent", 
+            render: renderType 
           },
           {
             title: "memory",
