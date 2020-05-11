@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Layout, Button, Dropdown, Menu, PageHeader } from "antd";
+import { Dropdown, Menu, PageHeader } from "antd";
 import { Filter } from "../Filter";
 import { setVmState } from "../../utils/api";
 import styles from "./styles.module.scss";
 
-const { Header } = Layout;
 const headerStyles = {
   backgroundColor: "#fafafa",
   border: "1px solid rgb(235, 237, 240)"
