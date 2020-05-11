@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Layout, Button, Dropdown, Menu } from "antd";
+import { Layout, Button, Dropdown, Menu, PageHeader } from "antd";
 import { Filter } from "../Filter";
 import { setVmState } from "../../utils/api";
 import styles from "./styles.module.scss";
 
 const { Header } = Layout;
-const headerStyles = { padding: "0 16px" };
+const headerStyles = {
+  backgroundColor: "#fafafa",
+  border: "1px solid rgb(235, 237, 240)"
+};
 
 const vmStates = {
   RUNNING: "running",
@@ -22,13 +25,13 @@ const vmStates = {
 
 const vocabulary = {
   reboot:
-    "Are you sure you want to reboot $name? All unsaved data will be lost!",
+    "Are you sure you want to reboot $name?",
   running:
-    "Are you sure you want to shut down $name? All unsaved data will be lost!",
+    "Are you sure you want to shut down $name?",
   shutdown:
-    "Are you sure you want to shut down $name? All unsaved data will be lost!",
+    "Are you sure you want to shut down $name?",
   shutoff:
-    "Are you sure you want to power off $name? All unsaved data will be lost!",
+    "Are you sure you want to power off $name?",
   suspend: "Are you sure you want to suspend $name?",
   resume: "Are you sure you want to resume $name?",
   pause: "Are you sure you want to pause $name?",
@@ -52,11 +55,14 @@ const Container = props => {
 
   const menu = (
     <Menu>
-      <Menu.Item key={vmStates.SHUTDOWN} onClick={handleStateChange}>
-        Shut down
+      <Menu.Item key={vmStates.RESET} onClick={handleStateChange}>
+        Force Reset
       </Menu.Item>
-      <Menu.Item key={vmStates.SHUTDOFF} onClick={handleStateChange}>
-        Shut off
+      <Menu.Item key={vmStates.SHUTDOWN} onClick={handleStateChange}>
+        Shut Down
+      </Menu.Item>
+      <Menu.Item key={vmStates.SHUTOFF} onClick={handleStateChange}>
+        Force Shut Off
       </Menu.Item>
       <Menu.Item key={vmStates.PAUSE} onClick={handleStateChange}>
         Pause
@@ -70,17 +76,19 @@ const Container = props => {
     </Menu>
   );
 
-  const stateText = state !== "running" ? "Start" : "Reboot";
+  const stateText = state !== vmStates.RUNNING ? "Start" : "Reboot";
   const activeHandler =
-    state !== "running"
+    state !== vmStates.RUNNING
       ? () => vmActionsHandler(vmStates.RUNNING)
       : () => vmActionsHandler(vmStates.REBOOT);
 
   return (
-    <Header style={headerStyles}>
-      {showBackBtn ? (
-        <>
-          <Button onClick={handleClose}>Close</Button>
+    <PageHeader
+      style={headerStyles}
+      onBack={showBackBtn ? () => handleClose() : ""}
+      title={showBackBtn ? name : <Filter />}
+      extra={
+        showBackBtn ? [
           <Dropdown.Button
             overlay={menu}
             className={styles.dropdown}
@@ -88,11 +96,10 @@ const Container = props => {
           >
             {stateText}
           </Dropdown.Button>
-        </>
-      ) : (
-        <Filter />
-      )}
-    </Header>
+        ] : [""]
+      }
+    >
+    </PageHeader >
   );
 };
 
