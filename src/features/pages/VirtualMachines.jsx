@@ -4,6 +4,7 @@ import { Table, Button, Tag } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import pretty from "prettysize";
 import { fetchVirtualMachines } from "../../utils/api";
+import { sortNumbers, sortStrings } from "../../utils/tableSorters";
 import {
   addMachines,
   startLoading,
@@ -87,32 +88,45 @@ const VirtualMachines = () => {
             render: Action,
           },
           { title: "Id", dataIndex: "id", key: "id" },
-          { title: "Name", dataIndex: "name", key: "name" },
+          {
+            title: "Name",
+            dataIndex: "name",
+            key: "name",
+            sorter: (a, b) => sortStrings(a.name, b.name),
+          },
           { title: "Tags", dataIndex: "tags", key: "tags", render: renderTag },
           {
             title: "State",
             dataIndex: "state",
             key: "state",
             render: renderLabel,
+            sorter: (a, b) => sortStrings(a.state, b.state),
           },
           {
             title: "Type",
             dataIndex: "is_persistent",
             key: "is_persistent",
             render: renderType,
+            sorter: (a, b) => sortStrings(a.is_persistent, b.is_persistent),
           },
           {
             title: "memory",
             dataIndex: "memory",
             key: "memory",
-            sorter: (a, b) => a.memory - b.memory,
             render: memory => pretty(memory),
+            sorter: (a, b) => sortNumbers(a.memory, b.memory),
           },
-          { title: "CPUs", dataIndex: "cpus", key: "cpus" },
+          {
+            title: "CPUs",
+            dataIndex: "cpus",
+            key: "cpus",
+            sorter: (a, b) => sortNumbers(a.cpus, b.cpus),
+          },
           {
             title: "Hypervisor",
             dataIndex: ["hypervisor", "name"],
             key: "hypervisor",
+            sorter: (a, b) => sortStrings(a.hypervisor, b.hypervisor),
           },
         ]}
         pagination={{ showSizeChanger: true }}
