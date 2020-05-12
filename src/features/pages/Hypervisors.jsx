@@ -37,6 +37,7 @@ const Hypervisors = () => {
   return (
     <Table
       bordered
+      size="middle"
       dataSource={hypervisors}
       isLoading={isLoading}
       columns={[

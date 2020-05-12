@@ -7,7 +7,7 @@ import MachineInfo from "./pages/MachineInfo";
 import { Header } from "./Header";
 import { SideMenu } from "./SideMenu";
 
-const { Sider, Content, Footer } = Layout;
+const { Sider, Content } = Layout;
 
 const layoutStyles = { minHeight: "100vh" };
 const contentStyles = {
@@ -52,7 +52,6 @@ export default function Dashboard() {
           </Route> */}
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>Virtualizm.org</Footer>
       </Layout>
     </Layout>
   );

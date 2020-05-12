@@ -19,13 +19,13 @@ const renderLabel = state => {
 
 const renderType = isPersistent => {
   if (isPersistent) {
-   return <Tag color="blue">Persistent</Tag>;
+    return <Tag color="blue">Persistent</Tag>;
   }
   return <Tag color="orange">Transient</Tag>;
 };
 
 const renderTag = tags => {
-  return tags.map(tag =>(<Tag color="blue">{tag}</Tag>));
+  return tags.map(tag => (<Tag color="blue">{tag}</Tag>));
 };
 
 const Action = (_, { id }) => {
@@ -76,6 +76,7 @@ const VirtualMachines = () => {
     <React.Fragment>
       <Table
         bordered
+        size="middle"
         dataSource={dataSource}
         isLoading={isLoading}
         columns={[
@@ -95,15 +96,16 @@ const VirtualMachines = () => {
             render: renderLabel,
           },
           {
-            title: "Type", 
-            dataIndex: "is_persistent", 
-            key: "is_persistent", 
-            render: renderType 
+            title: "Type",
+            dataIndex: "is_persistent",
+            key: "is_persistent",
+            render: renderType,
           },
           {
             title: "memory",
             dataIndex: "memory",
             key: "memory",
+            sorter: (a, b) => a.memory - b.memory,
             render: memory => pretty(memory),
           },
           { title: "CPUs", dataIndex: "cpus", key: "cpus" },
