@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useCallback } from "react";
+import React, { useEffect, useContext, useCallback, useMemo } from "react";
 import pretty from "prettysize";
 import { Table, Tag } from "antd";
 import { fetchHypervisors } from "../../utils/api";
@@ -18,7 +18,15 @@ const renderState = connected => {
 const Hypervisors = () => {
   const { store, dispatch } = useContext(StoreContext);
 
-  const { isLoading, hypervisors } = store;
+  const { isLoading, hypervisors, filter } = store;
+
+  const dataSource = useMemo(() => {
+    return hypervisors.filter(
+      hypervisor =>
+        hypervisor.id.includes(filter) ||
+        hypervisor.name.includes(filter) 
+    );
+  }, [filter, hypervisors]);
 
   const fetchData = useCallback(async () => {
     dispatch(startLoading());
@@ -39,7 +47,7 @@ const Hypervisors = () => {
     <Table
       bordered
       size="middle"
-      dataSource={hypervisors}
+      dataSource={dataSource}
       isLoading={isLoading}
       columns={[
         { title: "Id", dataIndex: "id", key: "id" },
