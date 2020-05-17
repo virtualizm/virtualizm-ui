@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  ThunderboltOutlined,
+  CloudServerOutlined,
   DesktopOutlined,
   LogoutOutlined,
+  DatabaseOutlined,
+  HddOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { Menu } from "antd";
@@ -20,9 +22,21 @@ export const SideMenuComponent = ({ handleLogout }) => {
           </Link>
         </Menu.Item>
         <Menu.Item key="2">
+          <Link to="/storage-volumes">
+            <DatabaseOutlined />
+            <span className={styles.menuItemText}>Storage Volumes</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="3">
           <Link to="/hypervisors">
-            <ThunderboltOutlined />
+            <CloudServerOutlined />
             <span className={styles.menuItemText}>Hypervisors</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="4">
+          <Link to="/storage-pools">
+            <HddOutlined />
+            <span className={styles.menuItemText}>Storage Pools</span>
           </Link>
         </Menu.Item>
       </Menu>
