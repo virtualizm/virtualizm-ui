@@ -81,3 +81,57 @@ jsonApi.define("hypervisor", {
 export const fetchHypervisors = id => {
   return jsonApi.findAll("hypervisor", { id });
 };
+
+
+jsonApi.define("storage-pool", {
+  name: "",
+  state: "",
+  capacity: 0,
+  allocation: 0,
+  available: 0,
+  xml: "",
+  target_path: "",
+  hypervisor: {
+    jsonApi: "hasOne",
+    type: "hypervisors",
+  }
+});
+
+export const fetchStoragePools = id => {
+  return jsonApi.findAll("storage-pool", {
+    id,
+    field: { hypervisors: "name" },
+    include: "hypervisor",
+  });
+};
+
+jsonApi.define("storage-volume", {
+  name: "",
+  key: "",
+  capacity: 0,
+  allocation: 0,
+  physical: 0,
+  xml: "",
+  target_path: "",
+  target_format: "",
+  hypervisor: {
+    jsonApi: "hasOne",
+    type: "hypervisors",
+  },
+  pool: {
+    jsonApi: "hasOne",
+    type: "storage-pools",
+  },
+  virtual_machines: {
+    jsonApi: "hasMany",
+      type: "virtual-machines",
+  }
+});
+
+export const fetchStorageVolumes = id => {
+  return jsonApi.findAll("storage-volume", {
+    id,
+    field: { hypervisors: "name", pools: "name", "virtual-machines": "name" },
+    include: "hypervisor,pool",
+  });
+};

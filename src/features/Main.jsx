@@ -3,6 +3,8 @@ import { Layout } from "antd";
 import { Route } from "react-router-dom";
 import Hypervisors from "./pages/Hypervisors";
 import VirtualMachines from "./pages/VirtualMachines";
+import StoragePools from "./pages/StoragePools";
+import StorageVolumes from "./pages/StorageVolumes";
 import MachineInfo from "./pages/MachineInfo";
 import { Header } from "./Header";
 import { SideMenu } from "./SideMenu";
@@ -40,6 +42,14 @@ export default function Dashboard() {
 
             <Route path="/hypervisors">
               <Hypervisors />
+            </Route>
+
+            <Route path="/storage-pools">
+              <StoragePools />
+            </Route>
+
+            <Route path="/storage-volumes">
+              <StorageVolumes />
             </Route>
 
             {/* <Route path="*">
