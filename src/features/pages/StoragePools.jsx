@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useCallback } from "react";
+import React, { useEffect, useContext, useCallback, useMemo } from "react";
 import pretty from "prettysize";
 import { Table, Tag } from "antd";
 import { fetchStoragePools } from "../../utils/api";
@@ -18,7 +18,18 @@ const renderState = state => {
 const StoragePools = () => {
   const { store, dispatch } = useContext(StoreContext);
 
-  const { isLoading, storagePools } = store;
+  const { isLoading, storagePools, filter } = store;
+
+  const dataSource = useMemo(() => {
+    return storagePools.filter(
+      storagePool =>
+        storagePool.id.includes(filter) ||
+        storagePool.name.includes(filter) ||
+        storagePool.target_path.includes(filter) ||
+        storagePool.hypervisor.name.includes(filter)
+
+    );
+  }, [filter, storagePools]);
 
   const fetchData = useCallback(async () => {
     dispatch(startLoading());
@@ -39,7 +50,7 @@ const StoragePools = () => {
     <Table
       bordered
       size="middle"
-      dataSource={storagePools}
+      dataSource={dataSource}
       isLoading={isLoading}
       columns={[
         { title: "Id", dataIndex: "id", key: "id" },

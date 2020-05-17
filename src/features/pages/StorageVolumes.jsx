@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useCallback } from "react";
+import React, { useEffect, useContext, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import pretty from "prettysize";
 import { Table, Tag } from "antd";
@@ -30,7 +30,20 @@ const renderHypervisor = hv => {
 const StorageVolumes = () => {
   const { store, dispatch } = useContext(StoreContext);
 
-  const { isLoading, storageVolumes } = store;
+  const { isLoading, storageVolumes, filter } = store;
+
+  const dataSource = useMemo(() => {
+    return storageVolumes.filter(
+      storageVolume =>
+        storageVolume.id.includes(filter) ||
+        storageVolume.name.includes(filter) ||
+        storageVolume.target_path.includes(filter) ||
+        storageVolume.key.includes(filter) ||
+        storageVolume.hypervisor.name.includes(filter) ||
+        storageVolume.pool.name.includes(filter)
+    );
+  }, [filter, storageVolumes]);
+
 
   const fetchData = useCallback(async () => {
     dispatch(startLoading());
@@ -51,7 +64,7 @@ const StorageVolumes = () => {
     <Table
       bordered
       size="middle"
-      dataSource={storageVolumes}
+      dataSource={dataSource}
       isLoading={isLoading}
       columns={[
         { title: "Id", dataIndex: "id", key: "id" },
