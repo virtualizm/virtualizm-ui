@@ -12,8 +12,8 @@ export const state = {
   isLoading: false,
   hypervisors: [],
   machines: [],
-  storage_pools: [],
-  storage_volumes: [],
+  storagePools: [],
+  storageVolumes: [],
   filter: "",
 };
 
@@ -30,13 +30,13 @@ export const reducer = (state, { type, payload }) => {
     case "ADD_STORAGE_POOLS":
       return {
         ...state,
-        storage_pools: payload,
+        storagePools: payload,
       };
 
     case "ADD_STORAGE_VOLUMES":
       return {
         ...state,
-        storage_volumes: payload,
+        storageVolumes: payload,
       };
 
     case "ADD_MACHINES": {

@@ -18,7 +18,7 @@ const renderState = state => {
 const StoragePools = () => {
   const { store, dispatch } = useContext(StoreContext);
 
-  const { isLoading, storage_pools } = store;
+  const { isLoading, storagePools } = store;
 
   const fetchData = useCallback(async () => {
     dispatch(startLoading());
@@ -39,7 +39,7 @@ const StoragePools = () => {
     <Table
       bordered
       size="middle"
-      dataSource={storage_pools}
+      dataSource={storagePools}
       isLoading={isLoading}
       columns={[
         { title: "Id", dataIndex: "id", key: "id" },

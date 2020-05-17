@@ -107,6 +107,7 @@ export const fetchStoragePools = id => {
 
 jsonApi.define("storage-volume", {
   name: "",
+  type: "",
   key: "",
   capacity: 0,
   allocation: 0,

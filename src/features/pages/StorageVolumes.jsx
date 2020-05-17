@@ -26,7 +26,7 @@ const renderStoragePool = pool => {
 const StorageVolumes = () => {
   const { store, dispatch } = useContext(StoreContext);
 
-  const { isLoading, storage_volumes } = store;
+  const { isLoading, storageVolumes } = store;
 
   const fetchData = useCallback(async () => {
     dispatch(startLoading());
@@ -47,7 +47,7 @@ const StorageVolumes = () => {
     <Table
       bordered
       size="middle"
-      dataSource={storage_volumes}
+      dataSource={storageVolumes}
       isLoading={isLoading}
       columns={[
         { title: "Id", dataIndex: "id", key: "id" },
@@ -103,6 +103,18 @@ const StorageVolumes = () => {
           dataIndex: "target_path",
           key: "target_path",
           sorter: (a, b) => sortStrings(a.target_path, b.target_path),
+        },
+        {
+          title: "Target Format",
+          dataIndex: "target_format",
+          key: "target_format",
+          sorter: (a, b) => sortStrings(a.target_format, b.target_format),
+        },
+	{
+          title: "Key",
+          dataIndex: "key",
+          key: "key",
+          sorter: (a, b) => sortStrings(a.key, b.key),
         }
       ]}
       pagination={{ showSizeChanger: true }}
