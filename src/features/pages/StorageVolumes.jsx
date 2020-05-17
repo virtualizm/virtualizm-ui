@@ -20,7 +20,11 @@ const renderSize = size => {
 };
 
 const renderStoragePool = pool => {
-  return <Link to="/storage-pools/{vm.}">vm.name</Link>;
+  return <Link to={"/storage-pools/"+pool.id}>{pool.name}</Link>;
+};
+
+const renderHypervisor = hv => {
+  return <Link to={"/hypervisors/"+hv.id}>{hv.name}</Link>;
 };
 
 const StorageVolumes = () => {
@@ -53,16 +57,17 @@ const StorageVolumes = () => {
         { title: "Id", dataIndex: "id", key: "id" },
         {
             title: "Hypervisor",
-            dataIndex: ["hypervisor", "name"],
+            dataIndex: "hypervisor",
             key: "hypervisor",
-            sorter: (a, b) => sortStrings(a.hypervisor, b.hypervisor),
+            render: hypervisor=>renderHypervisor(hypervisor),
+            sorter: (a, b) => sortStrings(a.hypervisor.name, b.hypervisor.name),
         },
         {
             title: "StoragePool",
-            dataIndex: ["pool", "name"],
+            dataIndex: "pool",
             key: "pool",
             render: pool=>renderStoragePool(pool),
-            sorter: (a, b) => sortStrings(a.pool, b.pool),
+            sorter: (a, b) => sortStrings(a.pool.name, b.pool.name),
         },
         {
           title: "Name",
