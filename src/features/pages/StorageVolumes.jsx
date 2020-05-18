@@ -76,7 +76,7 @@ const StorageVolumes = () => {
             sorter: (a, b) => sortStrings(a.hypervisor.name, b.hypervisor.name),
         },
         {
-            title: "StoragePool",
+            title: "Storage Pool",
             dataIndex: "pool",
             key: "pool",
             render: pool=>renderStoragePool(pool),
@@ -90,10 +90,10 @@ const StorageVolumes = () => {
         },
         {
           title: "Type",
-          dataIndex: "type",
-          key: "type",
+          dataIndex: "volume_type",
+          key: "volume_type",
           render: renderType,
-          sorter: (a, b) => sortStrings(a.type, b.type),
+          sorter: (a, b) => sortStrings(a.volume_type, b.volume_type),
         },
         {
           title: "Capacity",
