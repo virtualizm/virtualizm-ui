@@ -17,7 +17,7 @@ const contentStyles = {
   paddingTop: "16px",
   background: "#fff",
   padding: "24px",
-  "min-height": "280px",
+  minHeight: "280px",
 };
 
 export default function Dashboard() {

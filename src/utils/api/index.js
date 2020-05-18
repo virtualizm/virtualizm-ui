@@ -49,6 +49,14 @@ jsonApi.define("virtual-machine", {
     jsonApi: "hasOne",
     type: "hypervisors",
   },
+  storagePools: {
+    jsonApi: "hasMany",
+    type: "storage-pool"
+  },
+  storageVolumes: {
+    jsonApi: "hasMany",
+    type: "storage-volume"
+  }
 });
 
 export const fetchVirtualMachines = id => {
@@ -76,6 +84,14 @@ jsonApi.define("hypervisor", {
   free_memory: 0,
   capabilities: "",
   connected: false,
+  virtualMachines: {
+    jsonApi: "hasMany",
+    type: "virtual-machine"
+  },
+  storagePools: {
+    jsonApi: "hasMany",
+    type: "storage-pool"
+  }
 });
 
 export const fetchHypervisors = id => {
@@ -86,6 +102,7 @@ export const fetchHypervisors = id => {
 jsonApi.define("storage-pool", {
   name: "",
   state: "",
+  pool_type: "",
   capacity: 0,
   allocation: 0,
   available: 0,
@@ -94,6 +111,14 @@ jsonApi.define("storage-pool", {
   hypervisor: {
     jsonApi: "hasOne",
     type: "hypervisors",
+  },
+  volumes: {
+    jsonApi: "hasMany",
+    type: "storage-volume"
+  },
+  virtualMachines: {
+    jsonApi: "hasMany",
+    type: "virtual-machines",
   }
 });
 
@@ -107,7 +132,7 @@ export const fetchStoragePools = id => {
 
 jsonApi.define("storage-volume", {
   name: "",
-  type: "",
+  volume_type: "",
   key: "",
   capacity: 0,
   allocation: 0,
@@ -123,7 +148,7 @@ jsonApi.define("storage-volume", {
     jsonApi: "hasOne",
     type: "storage-pools",
   },
-  virtual_machines: {
+  virtualMachines: {
     jsonApi: "hasMany",
       type: "virtual-machines",
   }

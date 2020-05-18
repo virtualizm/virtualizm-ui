@@ -15,6 +15,11 @@ const renderState = state => {
   return <Tag color={color}>{state}</Tag>;
 };
 
+const renderType = type => {
+  return <Tag color="blue">{type}</Tag>;
+};
+
+
 const StoragePools = () => {
   const { store, dispatch } = useContext(StoreContext);
 
@@ -73,6 +78,14 @@ const StoragePools = () => {
           render: renderState,
           sorter: (a, b) => sortStrings(a.state, b.state),
         },
+        {
+          title: "Type",
+          dataIndex: "pool_type",
+          key: "pool_type",
+          render: renderType,
+          sorter: (a, b) => sortStrings(a.pool_type, b.pool_type),
+        },
+
         {
           title: "Capacity",
           dataIndex: "capacity",
