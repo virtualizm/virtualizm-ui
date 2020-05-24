@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import pretty from "prettysize";
-import { Table, Tag } from "antd";
+import { Descriptions, Table, Tag } from "antd";
 import { fetchStorageVolumes } from "../../utils/api";
 import { sortNumbers, sortStrings } from "../../utils/tableSorters";
 import {
@@ -16,7 +16,7 @@ const renderType = type => {
 };
 
 const renderSize = size => {
-  return `${pretty(size)} (${size})`;
+  return `${pretty(size)}`;
 };
 
 const renderStoragePool = pool => {
@@ -127,14 +127,16 @@ const StorageVolumes = () => {
           dataIndex: "target_format",
           key: "target_format",
           sorter: (a, b) => sortStrings(a.target_format, b.target_format),
-        },
-	{
-          title: "Key",
-          dataIndex: "key",
-          key: "key",
-          sorter: (a, b) => sortStrings(a.key, b.key),
         }
       ]}
+      expandable={{
+         expandedRowRender: record => <Descriptions>
+		<Descriptions.Item label="Physical size">{record.physical}</Descriptions.Item>
+		<Descriptions.Item label="Capacity">{record.capacity}</Descriptions.Item>
+		<Descriptions.Item label="Allocation">{record.allocation}</Descriptions.Item>
+		<Descriptions.Item label="Key">{record.key}</Descriptions.Item>
+	</Descriptions>
+      }}
       pagination={{ showSizeChanger: true }}
     />
   );
