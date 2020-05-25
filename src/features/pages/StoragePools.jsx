@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useCallback, useMemo } from "react";
 import pretty from "prettysize";
-import { Table, Tag } from "antd";
+import { Descriptions, Table, Tag } from "antd";
 import { fetchStoragePools } from "../../utils/api";
 import { sortNumbers, sortStrings } from "../../utils/tableSorters";
 import {
@@ -114,6 +114,13 @@ const StoragePools = () => {
           sorter: (a, b) => sortStrings(a.target_path, b.target_path),
         }
       ]}
+      expandable={{
+         expandedRowRender: record => <Descriptions>
+                <Descriptions.Item label="Capacity">{record.capacity}</Descriptions.Item>
+                <Descriptions.Item label="Allocation">{record.allocation}</Descriptions.Item>
+		<Descriptions.Item label="Available">{record.available}</Descriptions.Item>
+        </Descriptions>
+      }}
       pagination={{ showSizeChanger: true }}
     />
   );

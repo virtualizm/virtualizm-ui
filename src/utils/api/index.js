@@ -158,6 +158,6 @@ export const fetchStorageVolumes = id => {
   return jsonApi.findAll("storage-volume", {
     id,
     field: { hypervisors: "name", pools: "name", "virtual-machines": "name" },
-    include: "hypervisor,pool",
+    include: "hypervisor,pool,virtual-machines",
   });
 };
