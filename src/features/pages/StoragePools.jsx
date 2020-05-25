@@ -10,15 +10,14 @@ import {
   addStoragePools,
 } from "../../app/store";
 
-const renderState = state => {
+const renderState = (state) => {
   const color = state === "running" ? "green" : "red";
   return <Tag color={color}>{state}</Tag>;
 };
 
-const renderType = type => {
+const renderType = (type) => {
   return <Tag color="blue">{type}</Tag>;
 };
-
 
 const StoragePools = () => {
   const { store, dispatch } = useContext(StoreContext);
@@ -27,12 +26,11 @@ const StoragePools = () => {
 
   const dataSource = useMemo(() => {
     return storagePools.filter(
-      storagePool =>
+      (storagePool) =>
         storagePool.id.includes(filter) ||
         storagePool.name.includes(filter) ||
         storagePool.target_path.includes(filter) ||
         storagePool.hypervisor.name.includes(filter)
-
     );
   }, [filter, storagePools]);
 
@@ -60,10 +58,10 @@ const StoragePools = () => {
       columns={[
         { title: "Id", dataIndex: "id", key: "id" },
         {
-            title: "Hypervisor",
-            dataIndex: ["hypervisor", "name"],
-            key: "hypervisor",
-            sorter: (a, b) => sortStrings(a.hypervisor, b.hypervisor),
+          title: "Hypervisor",
+          dataIndex: ["hypervisor", "name"],
+          key: "hypervisor",
+          sorter: (a, b) => sortStrings(a.hypervisor, b.hypervisor),
         },
         {
           title: "Name",
@@ -90,21 +88,21 @@ const StoragePools = () => {
           title: "Capacity",
           dataIndex: "capacity",
           key: "capacity",
-          render: capacity=>pretty(capacity),
+          render: (capacity) => pretty(capacity),
           sorter: (a, b) => sortNumbers(a.capacity, b.capacity),
         },
         {
           title: "Allocation",
           dataIndex: "allocation",
           key: "allocation",
-          render: allocation=>pretty(allocation),
+          render: (allocation) => pretty(allocation),
           sorter: (a, b) => sortNumbers(a.allocation, b.allocation),
         },
         {
           title: "Available",
           dataIndex: "available",
           key: "available",
-          render: available=>pretty(available),
+          render: (available) => pretty(available),
           sorter: (a, b) => sortNumbers(a.available, b.available),
         },
         {
@@ -112,14 +110,22 @@ const StoragePools = () => {
           dataIndex: "target_path",
           key: "target_path",
           sorter: (a, b) => sortStrings(a.target_path, b.target_path),
-        }
+        },
       ]}
       expandable={{
-         expandedRowRender: record => <Descriptions>
-                <Descriptions.Item label="Capacity">{record.capacity}</Descriptions.Item>
-                <Descriptions.Item label="Allocation">{record.allocation}</Descriptions.Item>
-		<Descriptions.Item label="Available">{record.available}</Descriptions.Item>
-        </Descriptions>
+        expandedRowRender: (record) => (
+          <Descriptions>
+            <Descriptions.Item label="Capacity">
+              {record.capacity}
+            </Descriptions.Item>
+            <Descriptions.Item label="Allocation">
+              {record.allocation}
+            </Descriptions.Item>
+            <Descriptions.Item label="Available">
+              {record.available}
+            </Descriptions.Item>
+          </Descriptions>
+        ),
       }}
       pagination={{ showSizeChanger: true }}
     />
