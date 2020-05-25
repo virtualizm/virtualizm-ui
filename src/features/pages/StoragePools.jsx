@@ -55,12 +55,13 @@ const StoragePools = () => {
       size="middle"
       dataSource={dataSource}
       isLoading={isLoading}
+      rowKey="id"
       columns={[
         { title: "Id", dataIndex: "id", key: "id" },
         {
           title: "Hypervisor",
           dataIndex: ["hypervisor", "name"],
-          key: "hypervisor",
+          key: "hypervisor.id",
           sorter: (a, b) => sortStrings(a.hypervisor, b.hypervisor),
         },
         {
