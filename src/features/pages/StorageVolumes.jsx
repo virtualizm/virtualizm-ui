@@ -74,6 +74,7 @@ const StorageVolumes = () => {
       size="middle"
       dataSource={dataSource}
       isLoading={isLoading}
+      rowKey="id"
       columns={[
         { title: "Id", dataIndex: "id", key: "id" },
         {

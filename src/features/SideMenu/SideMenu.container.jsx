@@ -1,14 +1,23 @@
 import React, { useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { message } from "antd";
+import { message, Layout } from "antd";
 import { SideMenuComponent } from "./SideMenu.component";
 import { deleteSessions } from "../../utils/api";
 
-export const SideMenuContainer = () => {
+const { Sider } = Layout;
+
+const styles = {
+  overflow: "auto",
+  height: "100vh",
+  position: "fixed",
+  left: 0,
+};
+
+export const SideMenuContainer = (props) => {
   const history = useHistory();
 
   const handleLogout = useCallback(
-    async e => {
+    async (e) => {
       try {
         await deleteSessions();
         history.push("/auth");
@@ -19,5 +28,9 @@ export const SideMenuContainer = () => {
     [history]
   );
 
-  return <SideMenuComponent handleLogout={handleLogout} />;
+  return (
+    <Sider {...props} style={styles}>
+      <SideMenuComponent handleLogout={handleLogout} />
+    </Sider>
+  );
 };

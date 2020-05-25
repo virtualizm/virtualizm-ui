@@ -9,9 +9,8 @@ import MachineInfo from "./pages/MachineInfo";
 import { Header } from "./Header";
 import { SideMenu } from "./SideMenu";
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
-const layoutStyles = { minHeight: "100vh" };
 const contentStyles = {
   margin: "0",
   paddingTop: "16px",
@@ -21,13 +20,17 @@ const contentStyles = {
 };
 
 export default function Dashboard() {
-  const [open, setOpen] = React.useState(true);
+  const [closed, setClose] = React.useState(true);
+
+  const layoutStyles = {
+    minHeight: "100vh",
+    transition: "margin-left 200ms",
+    marginLeft: closed ? 80 : 200,
+  };
 
   return (
     <Layout style={layoutStyles}>
-      <Sider collapsible collapsed={open} onCollapse={setOpen}>
-        <SideMenu />
-      </Sider>
+      <SideMenu collapsible collapsed={closed} onCollapse={setClose} />
       <Layout className="site-layout">
         <Header />
         <Content style={contentStyles}>
