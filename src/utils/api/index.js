@@ -51,15 +51,15 @@ jsonApi.define("virtual-machine", {
   },
   storagePools: {
     jsonApi: "hasMany",
-    type: "storage-pool"
+    type: "storage-pool",
   },
   storageVolumes: {
     jsonApi: "hasMany",
-    type: "storage-volume"
-  }
+    type: "storage-volume",
+  },
 });
 
-export const fetchVirtualMachines = id => {
+export const fetchVirtualMachines = (id) => {
   return jsonApi.findAll("virtual-machine", {
     id,
     field: { hypervisors: "name" },
@@ -86,18 +86,17 @@ jsonApi.define("hypervisor", {
   connected: false,
   virtualMachines: {
     jsonApi: "hasMany",
-    type: "virtual-machine"
+    type: "virtual-machine",
   },
   storagePools: {
     jsonApi: "hasMany",
-    type: "storage-pool"
-  }
+    type: "storage-pool",
+  },
 });
 
-export const fetchHypervisors = id => {
+export const fetchHypervisors = (id) => {
   return jsonApi.findAll("hypervisor", { id });
 };
-
 
 jsonApi.define("storage-pool", {
   name: "",
@@ -114,15 +113,15 @@ jsonApi.define("storage-pool", {
   },
   volumes: {
     jsonApi: "hasMany",
-    type: "storage-volume"
+    type: "storage-volume",
   },
   virtualMachines: {
     jsonApi: "hasMany",
     type: "virtual-machines",
-  }
+  },
 });
 
-export const fetchStoragePools = id => {
+export const fetchStoragePools = (id) => {
   return jsonApi.findAll("storage-pool", {
     id,
     field: { hypervisors: "name" },
@@ -150,14 +149,14 @@ jsonApi.define("storage-volume", {
   },
   virtualMachines: {
     jsonApi: "hasMany",
-      type: "virtual-machines",
-  }
+    type: "virtual-machines",
+  },
 });
 
-export const fetchStorageVolumes = id => {
+export const fetchStorageVolumes = (id) => {
   return jsonApi.findAll("storage-volume", {
     id,
-    field: { hypervisors: "name", pools: "name", "virtual-machines": "name" },
+    fields: { hypervisors: "name", pools: "name", "virtual-machines": "name" },
     include: "hypervisor,pool,virtual-machines",
   });
 };
