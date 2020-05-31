@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useCallback, useMemo } from "react";
 import { withRouter, useHistory } from "react-router-dom";
-import { Table, Button, Tag } from "antd";
+import { Table, Button } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import pretty from "prettysize";
 import { fetchVirtualMachines } from "../../utils/api";
