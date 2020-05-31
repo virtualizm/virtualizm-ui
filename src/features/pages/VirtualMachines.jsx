@@ -74,7 +74,6 @@ const VirtualMachines = () => {
             key: "actions",
             render: Action,
           },
-          { title: "Id", dataIndex: "id", key: "id" },
           {
             title: "Name",
             dataIndex: "name",
@@ -85,7 +84,7 @@ const VirtualMachines = () => {
             title: "Tags",
             dataIndex: "tags",
             key: "tags",
-            render: (tags) => <TagsList tags={tags} />,
+            render: (tags, record) => <TagsList tags={tags} />,
           },
           {
             title: "State",

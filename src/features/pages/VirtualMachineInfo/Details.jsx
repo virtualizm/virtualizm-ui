@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
-import { Descriptions, Table } from "antd";
+import { Descriptions, Table, Divider } from "antd";
 import pretty from "prettysize";
 import { RunningState, Persistent } from "../../../components/Tags";
-import { TagsList } from "../../../components/Tags";
+import { TagsEdit } from "../../TagsEdit";
 import { HypervisorLink } from "../../../components/Links";
 
 export const Details = ({ data }) => {
@@ -20,7 +20,7 @@ export const Details = ({ data }) => {
           <Persistent isPersistent={data.is_persistent} />
         </Descriptions.Item>
         <Descriptions.Item label="Tags">
-          <TagsList tags={data.tags} />
+          <TagsEdit vmId={data.id} tags={data.tags} />
         </Descriptions.Item>
         <Descriptions.Item label="Memory">
           {pretty(data.memory)}
@@ -30,8 +30,10 @@ export const Details = ({ data }) => {
         </Descriptions.Item>
         <Descriptions.Item label="CPUs">{data.cpus}</Descriptions.Item>
       </Descriptions>
+      <Divider>Storage Devices</Divider>
       <Table
         dataSource={disks}
+        pagination={false}
         size="small"
         bordered="true"
         columns={[

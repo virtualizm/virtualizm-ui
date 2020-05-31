@@ -66,7 +66,6 @@ const StorageVolumes = () => {
       isLoading={isLoading}
       rowKey="id"
       columns={[
-        { title: "Id", dataIndex: "id", key: "id" },
         {
           title: "Hypervisor",
           dataIndex: "hypervisor",
@@ -138,14 +137,15 @@ const StorageVolumes = () => {
       expandable={{
         expandedRowRender: (record) => (
           <Descriptions>
+            <Descriptions.Item label="Id">{record.id}</Descriptions.Item>
             <Descriptions.Item label="Physical size">
-              {pretty(record.physical)}
+              {record.physical}
             </Descriptions.Item>
             <Descriptions.Item label="Capacity">
-              {pretty(record.capacity)}
+              {record.capacity}
             </Descriptions.Item>
             <Descriptions.Item label="Allocation">
-              {pretty(record.allocation)}
+              {record.allocation}
             </Descriptions.Item>
             <Descriptions.Item label="Key">{record.key}</Descriptions.Item>
           </Descriptions>

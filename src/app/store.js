@@ -1,12 +1,21 @@
 import React from "react";
 
-export const addHypervisors = payload => ({ type: "ADD_HYPERVISORS", payload });
-export const addMachines = payload => ({ type: "ADD_MACHINES", payload });
-export const addStoragePools = payload => ({ type: "ADD_STORAGE_POOLS", payload });
-export const addStorageVolumes = payload => ({ type: "ADD_STORAGE_VOLUMES", payload });
+export const addHypervisors = (payload) => ({
+  type: "ADD_HYPERVISORS",
+  payload,
+});
+export const addMachines = (payload) => ({ type: "ADD_MACHINES", payload });
+export const addStoragePools = (payload) => ({
+  type: "ADD_STORAGE_POOLS",
+  payload,
+});
+export const addStorageVolumes = (payload) => ({
+  type: "ADD_STORAGE_VOLUMES",
+  payload,
+});
 export const startLoading = () => ({ type: "START_LOADING" });
 export const stopLoading = () => ({ type: "STOP_LOADING" });
-export const changeFilter = payload => ({ type: "CHANGE_FILTER", payload });
+export const changeFilter = (payload) => ({ type: "CHANGE_FILTER", payload });
 
 export const state = {
   isLoading: false,

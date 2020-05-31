@@ -28,6 +28,10 @@ export default function Dashboard() {
     marginLeft: closed ? 80 : 200,
   };
 
+  React.useEffect(() => {
+    document.title = window.CONFIG.appTitle || "Virtualizm";
+  }, []);
+
   return (
     <Layout style={layoutStyles}>
       <SideMenu collapsible collapsed={closed} onCollapse={setClose} />
