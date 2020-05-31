@@ -54,7 +54,6 @@ const StoragePools = () => {
       isLoading={isLoading}
       rowKey="id"
       columns={[
-        { title: "Id", dataIndex: "id", key: "id" },
         {
           title: "Hypervisor",
           dataIndex: ["hypervisor", "name"],
@@ -113,14 +112,15 @@ const StoragePools = () => {
       expandable={{
         expandedRowRender: (record) => (
           <Descriptions>
+            <Descriptions.Item label="Id">{record.id}</Descriptions.Item>
             <Descriptions.Item label="Capacity">
-              {pretty(record.capacity)}
+              {record.capacity}
             </Descriptions.Item>
             <Descriptions.Item label="Allocation">
-              {pretty(record.allocation)}
+              {record.allocation}
             </Descriptions.Item>
             <Descriptions.Item label="Available">
-              {pretty(record.available)}
+              {record.available}
             </Descriptions.Item>
           </Descriptions>
         ),

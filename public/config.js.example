@@ -1,0 +1,5 @@
+window.CONFIG = {
+  apiUrl: "https://example.com/api",
+  wsUrl: "wss://exampl.com/ws_events",
+  appTitle: "Virtualizm",
+};

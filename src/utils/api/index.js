@@ -27,6 +27,14 @@ export const setVmState = (vmId, state) => {
   });
 };
 
+export const setVmTags = (vmId, tags) => {
+  return jsonApi.update("virtual-machine", {
+    id: vmId,
+    type: "virtual-machines",
+    tags: tags,
+  });
+};
+
 export const fetchSessions = () => {
   return jsonApi.find("sessions");
 };

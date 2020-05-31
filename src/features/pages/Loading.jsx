@@ -1,19 +1,15 @@
 import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { makeStyles } from "@material-ui/core";
+import { LoadingOutlined } from "@ant-design/icons";
 
-const useStyles = makeStyles(theme => ({
-  spinner: {
-    position: "absolute",
-    left: "50%",
-    top: "50%",
-  },
-}));
+const style = {
+  position: "absolute",
+  left: "50%",
+  top: "50%",
+  fontSize: 50,
+};
 
 function Loading() {
-  const classes = useStyles();
-
-  return <CircularProgress className={classes.spinner} size={100} />;
+  return <LoadingOutlined style={style} />;
 }
 
 export default Loading;
