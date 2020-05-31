@@ -10,10 +10,7 @@ import {
   addStoragePools,
 } from "../../app/store";
 
-const renderState = (state) => {
-  const color = state === "running" ? "green" : "red";
-  return <Tag color={color}>{state}</Tag>;
-};
+import { RunningState } from "../../components/Tags";
 
 const renderType = (type) => {
   return <Tag color="blue">{type}</Tag>;
@@ -74,7 +71,7 @@ const StoragePools = () => {
           title: "State",
           dataIndex: "state",
           key: "state",
-          render: renderState,
+          render: (state) => <RunningState state={state} />,
           sorter: (a, b) => sortStrings(a.state, b.state),
         },
         {
@@ -117,13 +114,13 @@ const StoragePools = () => {
         expandedRowRender: (record) => (
           <Descriptions>
             <Descriptions.Item label="Capacity">
-              {record.capacity}
+              {pretty(record.capacity)}
             </Descriptions.Item>
             <Descriptions.Item label="Allocation">
-              {record.allocation}
+              {pretty(record.allocation)}
             </Descriptions.Item>
             <Descriptions.Item label="Available">
-              {record.available}
+              {pretty(record.available)}
             </Descriptions.Item>
           </Descriptions>
         ),

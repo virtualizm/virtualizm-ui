@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useCallback, useMemo } from "react";
 import pretty from "prettysize";
-import { Table, Tag } from "antd";
+import { Table } from "antd";
 import { fetchHypervisors } from "../../utils/api";
 import { sortNumbers, sortStrings } from "../../utils/tableSorters";
 import {
@@ -10,10 +10,7 @@ import {
   addHypervisors,
 } from "../../app/store";
 
-const renderState = connected => {
-  const [color, state] = connected ? ["green", "connected"] : ["red", "disconnected"];
-  return <Tag color={color}>{state}</Tag>;
-};
+import { Connected } from "../../components/Tags";
 
 const Hypervisors = () => {
   const { store, dispatch } = useContext(StoreContext);
@@ -22,9 +19,8 @@ const Hypervisors = () => {
 
   const dataSource = useMemo(() => {
     return hypervisors.filter(
-      hypervisor =>
-        hypervisor.id.includes(filter) ||
-        hypervisor.name.includes(filter) 
+      (hypervisor) =>
+        hypervisor.id.includes(filter) || hypervisor.name.includes(filter)
     );
   }, [filter, hypervisors]);
 
@@ -61,7 +57,7 @@ const Hypervisors = () => {
           title: "State",
           dataIndex: "connected",
           key: "connected",
-          render: renderState,
+          render: (connected) => <Connected connected={connected} />,
           sorter: (a, b) => sortStrings(a.connected, b.connected),
         },
         {
@@ -86,14 +82,14 @@ const Hypervisors = () => {
           title: "Total Memory",
           dataIndex: "total_memory",
           key: "total_memory",
-          render: total_memory => pretty(total_memory),
+          render: (total_memory) => pretty(total_memory),
           sorter: (a, b) => sortNumbers(a.total_memory, b.total_memory),
         },
         {
           title: "Free Memory",
           dataIndex: "free_memory",
           key: "free_memory",
-          render: total_memory => pretty(total_memory),
+          render: (total_memory) => pretty(total_memory),
           sorter: (a, b) => sortNumbers(a.free_memory, b.free_memory),
         },
         {
@@ -107,7 +103,7 @@ const Hypervisors = () => {
           dataIndex: "libversion",
           key: "libversion",
           sorter: (a, b) => sortNumbers(a.libversion, b.libversion),
-        }
+        },
       ]}
       pagination={{ showSizeChanger: true }}
     />
