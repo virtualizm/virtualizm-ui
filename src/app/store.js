@@ -24,7 +24,6 @@ export const state = {
   storagePools: [],
   storageVolumes: [],
   filter: "",
-  tags: new Set(),
 };
 
 export const StoreContext = React.createContext(state);

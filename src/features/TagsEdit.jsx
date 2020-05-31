@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Select, Tag } from "antd";
+import { Select } from "antd";
 import { EditOutlined, CheckOutlined } from "@ant-design/icons";
 import { setVmTags } from "../utils/api";
 import { TagsList } from "../components/Tags";
@@ -12,10 +12,7 @@ export const TagsEdit = ({ vmId, tags }) => {
   const [editMode, setEditMode] = useState(false);
   const [tagsToAssign, setTagsToAssign] = useState([]);
 
-  tags.map((tag, index) => {
-    console.log(index);
-    children.push(<Option key={index}>{tag}</Option>);
-  });
+  tags.map((tag, index) => children.push(<Option key={index}>{tag}</Option>));
 
   useEffect(() => {
     console.log(editMode);
