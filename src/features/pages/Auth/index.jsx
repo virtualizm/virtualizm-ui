@@ -17,12 +17,12 @@ function Auth({ authStatus, history }) {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleOnChange = event => {
+  const handleOnChange = (event) => {
     const { name, value } = event.target;
     setInputValues({ [name]: value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!inputValues.login || !inputValues.password) return;
@@ -88,7 +88,6 @@ function Auth({ authStatus, history }) {
                     htmlType="submit"
                     className={styles.loginBtn}
                     onClick={handleSubmit}
-                    onPressEnter={handleSubmit}
                   >
                     Sign in
                   </Button>

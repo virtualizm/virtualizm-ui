@@ -12,22 +12,9 @@ import {
   StoreContext,
 } from "../../app/store";
 
-const renderLabel = state => {
-  const color = state === "running" ? "green" : "red";
-
-  return <Tag color={color}>{state}</Tag>;
-};
-
-const renderType = isPersistent => {
-  if (isPersistent) {
-    return <Tag color="blue">Persistent</Tag>;
-  }
-  return <Tag color="orange">Transient</Tag>;
-};
-
-const renderTag = tags => {
-  return tags.map(tag => (<Tag color="blue">{tag}</Tag>));
-};
+import { RunningState, Persistent } from "../../components/Tags";
+import { HypervisorLink } from "../../components/Links";
+import { TagsList } from "../../components/Tags";
 
 const Action = (_, { id }) => {
   const history = useHistory();
@@ -50,7 +37,7 @@ const VirtualMachines = () => {
 
   const dataSource = useMemo(() => {
     return machines.filter(
-      machine =>
+      (machine) =>
         machine.id.includes(filter) ||
         machine.name.includes(filter) ||
         machine.state.includes(filter) ||
@@ -94,26 +81,31 @@ const VirtualMachines = () => {
             key: "name",
             sorter: (a, b) => sortStrings(a.name, b.name),
           },
-          { title: "Tags", dataIndex: "tags", key: "tags", render: renderTag },
+          {
+            title: "Tags",
+            dataIndex: "tags",
+            key: "tags",
+            render: (tags) => <TagsList tags={tags} />,
+          },
           {
             title: "State",
             dataIndex: "state",
             key: "state",
-            render: renderLabel,
+            render: (state) => <RunningState state={state} />,
             sorter: (a, b) => sortStrings(a.state, b.state),
           },
           {
             title: "Type",
             dataIndex: "is_persistent",
             key: "is_persistent",
-            render: renderType,
+            render: (type) => <Persistent isPersistent={type} />,
             sorter: (a, b) => sortStrings(a.is_persistent, b.is_persistent),
           },
           {
             title: "memory",
             dataIndex: "memory",
             key: "memory",
-            render: memory => pretty(memory),
+            render: (memory) => pretty(memory),
             sorter: (a, b) => sortNumbers(a.memory, b.memory),
           },
           {
@@ -124,8 +116,9 @@ const VirtualMachines = () => {
           },
           {
             title: "Hypervisor",
-            dataIndex: ["hypervisor", "name"],
+            dataIndex: "hypervisor",
             key: "hypervisor",
+            render: (hypervisor) => <HypervisorLink hv={hypervisor} />,
             sorter: (a, b) => sortStrings(a.hypervisor, b.hypervisor),
           },
         ]}

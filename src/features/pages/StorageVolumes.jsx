@@ -11,20 +11,10 @@ import {
   addStorageVolumes,
 } from "../../app/store";
 
+import { StoragePoolLink, HypervisorLink } from "../../components/Links";
+
 const renderType = (type) => {
   return <Tag color="blue">{type}</Tag>;
-};
-
-const renderSize = (size) => {
-  return `${pretty(size)}`;
-};
-
-const renderStoragePool = (pool) => {
-  return <Link to={"/storage-pools/" + pool.id}>{pool.name}</Link>;
-};
-
-const renderHypervisor = (hv) => {
-  return <Link to={"/hypervisors/" + hv.id}>{hv.name}</Link>;
 };
 
 const renderMachine = (list) => {
@@ -81,7 +71,7 @@ const StorageVolumes = () => {
           title: "Hypervisor",
           dataIndex: "hypervisor",
           key: "hypervisor",
-          render: (hypervisor) => renderHypervisor(hypervisor),
+          render: (hypervisor) => <HypervisorLink hv={hypervisor} />,
           sorter: (a, b) => sortStrings(a.hypervisor.name, b.hypervisor.name),
         },
         {
@@ -95,7 +85,7 @@ const StorageVolumes = () => {
           title: "Storage Pool",
           dataIndex: "pool",
           key: "pool",
-          render: (pool) => renderStoragePool(pool),
+          render: (pool) => <StoragePoolLink pool={pool} />,
           sorter: (a, b) => sortStrings(a.pool.name, b.pool.name),
         },
         {
@@ -115,21 +105,21 @@ const StorageVolumes = () => {
           title: "Capacity",
           dataIndex: "capacity",
           key: "capacity",
-          render: (capacity) => renderSize(capacity),
+          render: pretty,
           sorter: (a, b) => sortNumbers(a.capacity, b.capacity),
         },
         {
           title: "Allocation",
           dataIndex: "allocation",
           key: "allocation",
-          render: (allocation) => renderSize(allocation),
+          render: pretty,
           sorter: (a, b) => sortNumbers(a.allocation, b.allocation),
         },
         {
           title: "Physical",
           dataIndex: "physical",
           key: "physical",
-          render: (physical) => renderSize(physical),
+          render: pretty,
           sorter: (a, b) => sortNumbers(a.physical, b.physical),
         },
         {
@@ -149,13 +139,13 @@ const StorageVolumes = () => {
         expandedRowRender: (record) => (
           <Descriptions>
             <Descriptions.Item label="Physical size">
-              {record.physical}
+              {pretty(record.physical)}
             </Descriptions.Item>
             <Descriptions.Item label="Capacity">
-              {record.capacity}
+              {pretty(record.capacity)}
             </Descriptions.Item>
             <Descriptions.Item label="Allocation">
-              {record.allocation}
+              {pretty(record.allocation)}
             </Descriptions.Item>
             <Descriptions.Item label="Key">{record.key}</Descriptions.Item>
           </Descriptions>
