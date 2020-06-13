@@ -10,6 +10,7 @@ import {
   startLoading,
   stopLoading,
   StoreContext,
+  addTags,
 } from "../../app/store";
 
 import { RunningState, Persistent } from "../../components/Tags";
@@ -51,6 +52,8 @@ const VirtualMachines = () => {
 
     if (!json.errors) {
       dispatch(addMachines(json.data));
+      const allTags = new Set(json.data.flatMap((vm) => vm.tags));
+      dispatch(addTags(allTags));
     }
 
     dispatch(stopLoading());
@@ -66,7 +69,7 @@ const VirtualMachines = () => {
         bordered
         size="middle"
         dataSource={dataSource}
-        isLoading={isLoading}
+        loading={isLoading}
         columns={[
           {
             title: "Actions",

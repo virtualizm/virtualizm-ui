@@ -16,6 +16,7 @@ export const addStorageVolumes = (payload) => ({
 export const startLoading = () => ({ type: "START_LOADING" });
 export const stopLoading = () => ({ type: "STOP_LOADING" });
 export const changeFilter = (payload) => ({ type: "CHANGE_FILTER", payload });
+export const addTags = (payload) => ({ type: "SET_TAGS", payload });
 
 export const state = {
   isLoading: false,
@@ -24,6 +25,7 @@ export const state = {
   storagePools: [],
   storageVolumes: [],
   filter: "",
+  tags: [],
 };
 
 export const StoreContext = React.createContext(state);
@@ -71,6 +73,12 @@ export const reducer = (state, { type, payload }) => {
       return {
         ...state,
         filter: payload,
+      };
+
+    case "SET_TAGS":
+      return {
+        ...state,
+        tags: payload,
       };
 
     default:

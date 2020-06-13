@@ -44,7 +44,7 @@ const Hypervisors = () => {
       bordered
       size="middle"
       dataSource={dataSource}
-      isLoading={isLoading}
+      loading={isLoading}
       columns={[
         {
           title: "Name",
