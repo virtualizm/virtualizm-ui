@@ -26,10 +26,6 @@ export const TagsEdit = ({ vmId, vmTags }) => {
     children.push(<Option key={tag}>{tag}</Option>);
   }
 
-  useEffect(() => {
-    console.log(editMode);
-  }, [editMode]);
-
   function toggleEdit() {
     setTagsToAssign([]);
     setEditMode(!editMode);
