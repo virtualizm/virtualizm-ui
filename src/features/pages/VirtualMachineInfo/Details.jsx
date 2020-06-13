@@ -20,7 +20,7 @@ export const Details = ({ data }) => {
           <Persistent isPersistent={data.is_persistent} />
         </Descriptions.Item>
         <Descriptions.Item label="Tags">
-          <TagsEdit vmId={data.id} tags={data.tags} />
+          <TagsEdit vmId={data.id} vmTags={data.tags} />
         </Descriptions.Item>
         <Descriptions.Item label="Memory">
           {pretty(data.memory)}

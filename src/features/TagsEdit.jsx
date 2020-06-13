@@ -1,24 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Select } from "antd";
-import { EditOutlined, CheckOutlined } from "@ant-design/icons";
+import { EditOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { setVmTags } from "../utils/api";
 import { TagsList } from "../components/Tags";
 
+import { StoreContext } from "../app/store";
+
 const { Option } = Select;
 
-export const TagsEdit = ({ vmId, tags }) => {
-  const children = [];
+const buttonStyles = {
+  margin: "5px",
+};
 
+export const TagsEdit = ({ vmId, vmTags }) => {
   const [editMode, setEditMode] = useState(false);
   const [tagsToAssign, setTagsToAssign] = useState([]);
+  const [assignedTags, assignTags] = useState(vmTags);
 
-  tags.map((tag, index) => children.push(<Option key={index}>{tag}</Option>));
+  const { store } = useContext(StoreContext);
+  const { tags } = store;
+
+  const children = [];
+
+  for (let tag of tags) {
+    children.push(<Option key={tag}>{tag}</Option>);
+  }
 
   useEffect(() => {
     console.log(editMode);
   }, [editMode]);
 
   function toggleEdit() {
+    setTagsToAssign([]);
     setEditMode(!editMode);
   }
 
@@ -29,10 +42,10 @@ export const TagsEdit = ({ vmId, tags }) => {
   const submitTags = async (e) => {
     try {
       await setVmTags(vmId, tagsToAssign);
+      assignTags(tagsToAssign);
     } catch (e) {
-      console.log("ALARM VZLOM ZHOPY", e);
+      console.log("An error occured", e);
     }
-    setTagsToAssign([]);
     toggleEdit();
   };
 
@@ -43,15 +56,17 @@ export const TagsEdit = ({ vmId, tags }) => {
         style={{ width: "300px" }}
         placeholder="Enter the tag"
         onChange={fillTagList}
+        defaultValue={assignedTags}
       >
         {children}
       </Select>
-      <CheckOutlined onClick={submitTags} />
+      <CheckOutlined onClick={submitTags} style={buttonStyles} />
+      <CloseOutlined onClick={toggleEdit} style={buttonStyles} />
     </>
   ) : (
     <>
-      <TagsList tags={tags} />
-      <EditOutlined onClick={toggleEdit} />
+      <TagsList tags={assignedTags} />
+      <EditOutlined onClick={toggleEdit} style={buttonStyles} />
     </>
   );
 };
