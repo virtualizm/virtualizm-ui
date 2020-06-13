@@ -51,7 +51,7 @@ const StoragePools = () => {
       bordered
       size="middle"
       dataSource={dataSource}
-      isLoading={isLoading}
+      loading={isLoading}
       rowKey="id"
       columns={[
         {

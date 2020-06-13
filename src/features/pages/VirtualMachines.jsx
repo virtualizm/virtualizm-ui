@@ -69,7 +69,7 @@ const VirtualMachines = () => {
         bordered
         size="middle"
         dataSource={dataSource}
-        isLoading={isLoading}
+        loading={isLoading}
         columns={[
           {
             title: "Actions",
