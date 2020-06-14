@@ -1,7 +1,7 @@
 import React from "react";
 import { Tag } from "antd";
 
-export const Connected = (connected) => {
+export const Connected = ({ connected }) => {
   const [color, state] = connected
     ? ["green", "connected"]
     : ["red", "disconnected"];
