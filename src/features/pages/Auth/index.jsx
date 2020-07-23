@@ -6,7 +6,7 @@ import { authorize, fetchSessions } from "../../../utils/api";
 import Loading from "../Loading";
 import styles from "./styles.module.scss";
 
-function Auth({ authStatus, history }) {
+function Auth({ authStatus, history, location }) {
   const [inputValues, setInputValues] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -16,6 +16,8 @@ function Auth({ authStatus, history }) {
   );
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const redirectTo = location.state ? location.state.from : "/";
 
   const handleOnChange = (event) => {
     const { name, value } = event.target;
@@ -30,7 +32,8 @@ function Auth({ authStatus, history }) {
     try {
       await authorize(inputValues.login, inputValues.password);
       authStatus.setIsAuthenticated(true);
-      history.push("/virtual_machines");
+
+      history.push(redirectTo);
     } catch (e) {
       message.error(e[0].title);
     }
@@ -41,12 +44,13 @@ function Auth({ authStatus, history }) {
       await fetchSessions();
       authStatus.setIsAuthenticated(true);
       setIsLoading(false);
-      history.push("/virtual_machines");
+
+      history.push(redirectTo);
     } catch (e) {
       setIsLoading(false);
       console.error("error", e);
     }
-  }, [authStatus, history]);
+  }, [authStatus, history, redirectTo]);
 
   useEffect(() => {
     onLoad();

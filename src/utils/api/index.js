@@ -75,6 +75,12 @@ export const fetchVirtualMachines = (id) => {
   });
 };
 
+export const fetchVirtualMachine = (id) => {
+  return jsonApi.find("virtual-machine", id, {
+    include: "hypervisor",
+  });
+};
+
 jsonApi.define("hypervisor", {
   name: "",
   version: 0,

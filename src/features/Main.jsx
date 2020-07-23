@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout } from "antd";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Hypervisors from "./pages/Hypervisors";
 import VirtualMachines from "./pages/VirtualMachines";
 import StoragePools from "./pages/StoragePools";
@@ -57,6 +57,10 @@ export default function Dashboard() {
 
             <Route path="/storage-volumes">
               <StorageVolumes />
+            </Route>
+
+            <Route path="/" exact>
+              <Redirect to={{ pathname: "/virtual_machines" }} />
             </Route>
 
             {/* <Route path="*">
