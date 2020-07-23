@@ -1,15 +1,37 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useCallback } from "react";
 import { withRouter } from "react-router-dom";
 import { Tabs } from "antd";
 import { Console, Details, Xml } from "./VirtualMachineInfo";
-import { StoreContext } from "../../app/store";
+import { fetchVirtualMachine } from "../../utils/api";
+
+import {
+  StoreContext,
+  startLoading,
+  stopLoading,
+  addMachines,
+} from "../../app/store";
 
 const { TabPane } = Tabs;
 
-const MachineInfo = props => {
+const MachineInfo = (props) => {
   const param = props.match.params.id;
 
-  const { store } = useContext(StoreContext);
+  const { store, dispatch } = useContext(StoreContext);
+
+  const fetchData = useCallback(async () => {
+    dispatch(startLoading());
+    const json = await fetchVirtualMachine(param);
+
+    if (!json.errors) {
+      dispatch(addMachines([json.data]));
+    }
+
+    dispatch(stopLoading());
+  }, [dispatch, param]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const item = store.machines.find(({ id }) => id === param);
 
